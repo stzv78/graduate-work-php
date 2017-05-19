@@ -7,7 +7,7 @@ class Router
     static function start()
     {
         $controller_name = 'Main';
-        $action_name = 'index';
+        $action_name = 'Index';
 
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
@@ -15,10 +15,10 @@ class Router
             $controller_name = ucfirst($routes[2]);
         }
         if (!empty($routes[3])) {
-            $action_name = $routes[3];
+            $action_name = ucfirst($routes[3]);
         }
 
-        $action_name = 'action' . ucfirst($action_name);
+        $action_name = 'action' . $action_name;
 
         $controller_path = getPathController($controller_name);
         if (file_exists($controller_path)) {

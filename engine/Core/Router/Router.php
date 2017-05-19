@@ -6,31 +6,29 @@ class Router
 {
     static function start()
     {
-        $controller_name = 'Main';
-        $action_name = 'Index';
+        $controllerName = 'Main';
+        $actionName = 'Index';
 
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
         if (!empty($routes[2])) {
-            $controller_name = ucfirst($routes[2]);
+            $controllerName = ucfirst($routes[2]);
         }
         if (!empty($routes[3])) {
-            $action_name = ucfirst($routes[3]);
+            $actionName = ucfirst($routes[3]);
         }
 
-        $action_name = 'action' . $action_name;
+        $actionName = 'action' . $actionName;
 
-        $controller_path = getPathController($controller_name);
-        if (file_exists($controller_path)) {
-            require_once $controller_path;
-        } else {
+        $pathController = getPathController($controllerName);
+        if (!file_exists($pathController)) {
             echo 404;
             #Router::ErrorPage404();
         }
 
-        $controller_name = 'Engine\Controllers\\' . $controller_name . '\\Controller';
-        $controller = new $controller_name();
-        $action = $action_name;
+        $controllerName = 'Engine\Controllers\\' . $controllerName . '\\Controller';
+        $controller = new $controllerName();
+        $action = $actionName;
 
         if (method_exists($controller, $action)) {
             $controller->$action();

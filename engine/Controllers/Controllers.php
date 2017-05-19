@@ -7,11 +7,8 @@ use Engine\Core\View\View;
  * Class Controllers
  * @package Engine\Controllers
  */
-class Controllers
+abstract class Controllers
 {
-    /**
-     * @var объект подключаемой модели
-     */
     protected $model;
     protected $view;
 
@@ -24,15 +21,7 @@ class Controllers
         $this->setModel();
     }
 
-    /**
-     * @return mixed
-     */
-    protected function setModel()
-    {
+    abstract protected function setModel();
 
-    }
-
-    public function actionIndex() {
-
-    }
+    abstract public function actionIndex();
 }

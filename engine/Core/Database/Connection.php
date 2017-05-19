@@ -3,6 +3,7 @@
 namespace Engine\Core\Database;
 
 use \PDO;
+use RedBeanPHP\R;
 
 /**
  * Class Connection
@@ -10,12 +11,6 @@ use \PDO;
  */
 class Connection
 {
-    /**
-     * @var
-     */
-    private $link;
-
-
     /**
      * Connection constructor.
      */
@@ -31,37 +26,11 @@ class Connection
     {
         $config = require_once DATABASE_CONFIG;
         $dsn = 'mysql:host=' . $config['host'] . ';dbname=' . $config['dbName'] . ';charset=' . $config['charset'];
-        $this->link = new PDO($dsn, $config['userName'], $config['userPassword'], [
+        R::setup($dsn, $config['userName'], $config['userPassword'], [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-
         ]);
+        #R::freeze(true);
         return $this;
-    }
-
-    /**
-     * @param $sql
-     * @param $array
-     * @return mixed
-     */
-    public function execute($sql, $array = [])
-    {
-        $sth = $this->link->prepare($sql);
-        return $sth->execute($array);
-    }
-
-    /**
-     * @param $sql
-     * @return array
-     */
-    public function query($sql, $array = [])
-    {
-        $sth = $this->link->prepare($sql);
-        $sth->execute($array);
-        $result = $sth->fetchALL(PDO::FETCH_ASSOC);
-        if ($result === false) {
-            return [];
-        }
-        return $result;
     }
 }

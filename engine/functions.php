@@ -4,7 +4,7 @@ function redirect($uri = '') {
     header('Location:' . $uri);
 }
 
-function getPathController($controller_name) {
-    $path = ROOT_DIR . "engine" . DS . "Controllers" . DS . $controller_name . DS . "Controller.php";
+function getPathController($controllerName) {
+    $path = ROOT_DIR . "engine" . DS . "Controllers" . DS . $controllerName . DS . "Controller.php";
     return $path;
 }

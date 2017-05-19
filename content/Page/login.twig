@@ -1,0 +1,22 @@
+<div class="container">
+    <h3>Гостевые аккаунты:</h3>
+    <p>Гость1 логин:guest1 пароль:guest1</p>
+    <p>Гость2 логин:guest2 пароль:guest2</p>
+    <p>Гость3 логин:guest3 пароль:guest3</p>
+    <p style="color: #dd4444">{{ error }}</p>
+    <form method="POST">
+        <p>
+            <lable id="login">Логин:</lable>
+            <br/>
+            <input id="login" type="text" name="loginLog" value="{{ login }}" placeholder="guest">
+        </p>
+        <p>
+            <lable id="password">Пароль:</lable>
+            <br/>
+            <input id="password" type="password" name="passwordLog">
+        </p>
+        <p>
+            <input type="submit" name="go_login" value="Войти">
+        </p>
+    </form>
+</div>

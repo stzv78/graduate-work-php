@@ -1,0 +1,28 @@
+<div class="container">
+    <p style="color: #dd4444">{{ error }}</p>
+    <form method="POST">
+        <p>
+            <label id="name">Вашe имя:</label>
+            <br/>
+            <input id="name" type="text" name="name" value="{{ name }}" placeholder="Евгений">
+        </p>
+        <p>
+            <label id="login">Ваш логин:</label>
+            <br/>
+            <input id="login" type="text" name="login" value="{{ login }}" placeholder="admin">
+        </p>
+        <p>
+            <label id="password">Ваш пароль:</label>
+            <br/>
+            <input id="password" type="password" name="password">
+        </p>
+        <p>
+            <label id="password_2">Повторите пароль:</label>
+            <br/>
+            <input id="password_2" type="password" name="password_2">
+        </p>
+        <p>
+            <input type="submit" name="go_regist" value="Зарегистрироватся">
+        </p>
+    </form>
+</div>

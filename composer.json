@@ -1,0 +1,17 @@
+{
+    "name": "root/netology.loc",
+    "authors": [
+        {
+            "name": "Oljinol",
+            "email": "jilbiljeka@yandex.ru"
+        }
+    ],
+    "require": {
+        "twig/twig": "^1.33.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Engine\\": "engine"
+        }
+    }
+}

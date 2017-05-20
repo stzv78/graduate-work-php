@@ -12,7 +12,9 @@ class Model extends Models
             'header' => [
                 'title' => 'F.A.Q.'
             ],
-            'data' => []
+            'data' => [
+                'header' => 'F.A.Q.'
+            ]
         ];
     }
 }

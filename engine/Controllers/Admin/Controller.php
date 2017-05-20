@@ -15,7 +15,7 @@ class Controller extends Controllers
 
     public function actionIndex()
     {
-        $array = $this->model->getData();
+        $array = $this->model->getData('admin');
         $this->view->render('admin', $array);
     }
 }

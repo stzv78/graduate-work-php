@@ -18,7 +18,13 @@ class Controller extends Controllers
 
     public function actionIndex()
     {
-        $array = $this->model->getData();
+        $array = $this->model->getData('index');
         $this->view->render('index', $array);
+    }
+
+    public function actionQuestion()
+    {
+        $array = $this->model->getData('question');
+        $this->view->render('question', $array);
     }
 }

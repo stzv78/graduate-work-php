@@ -8,9 +8,15 @@ use RedBeanPHP\R;
 
 class Model extends Models
 {
-    public function getData()
+    public function getData($method)
     {
-        #$user = R::load( 'user', 1 );
+        $array = self::$method();
+        return $array;
+
+    }
+
+    private function admin()
+    {
         return [
             'header' => [
                 'title' => 'Панель администратора'

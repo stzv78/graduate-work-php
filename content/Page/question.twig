@@ -3,7 +3,7 @@
 </header>
 {% if data['success'] %}
     <p style="color: #a9c056">{{ data['success'] }}</p>
-    <p><a href="/">Вернутся назад</a></p>
+    <p><a href="{{ thisHost }}">Вернутся назад</a></p>
 {% else %}
     <p style="color: #dd4444">{{ error }}</p>
     <div>

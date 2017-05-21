@@ -25,30 +25,36 @@ class Model extends Models
         ];
     }
 
+    /**
+     * @return array
+     */
     private function question()
     {
         $errors = [];
         $data = $_POST;
 
-        if ($data['nameUser'] === '') {
-            $errors[] = 'Введите имя*';
-        }
-        if ($data['emailUser'] === '') {
-            $errors[] = 'Введите E-mail*';
-        }
-        if ($data['categoryUser'] === '0') {
-            $errors[] = 'Выберите категорию*';
-        }
-        if ($data['questionUser'] === '') {
-            $errors[] = 'Введите вопрос*';
-        }
-        if (mb_strlen($data['questionUser']) >= 1000) {
-            $errors[] = 'В тексте должно быть меньше 1000 сиволов*';
-        }
+        if (isset($data['goQuestion'])) {
 
-        if (empty($errors) && isset($data['goQuestion'])) {
-            self::questionRecord($data);
-            $data['success'] = 'Вопрос отправлен!';
+            if ($data['nameUser'] === '') {
+                $errors[] = 'Введите имя*';
+            }
+            if ($data['emailUser'] === '') {
+                $errors[] = 'Введите E-mail*';
+            }
+            if ($data['categoryUser'] === '0') {
+                $errors[] = 'Выберите категорию*';
+            }
+            if ($data['questionUser'] === '') {
+                $errors[] = 'Введите вопрос*';
+            }
+            if (mb_strlen($data['questionUser']) >= 1000) {
+                $errors[] = 'В тексте должно быть меньше 1000 сиволов*';
+            }
+
+            if (empty($errors)) {
+                self::questionRecord($data);
+                $data['success'] = 'Вопрос отправлен!';
+            }
         }
 
         $categories = R::getAll('SELECT * FROM categories');
@@ -61,12 +67,14 @@ class Model extends Models
                 'header' => 'Задать вопрос',
                 'error' => array_shift($errors),
                 'data' => $data,
-                'categories' => $categories
+                'categories' => $categories,
+                'ok' => @$ok
             ]
         ];
     }
 
-    static private function questionRecord($data) {
+    static private function questionRecord($data)
+    {
         $dictionary = R::getAll('SELECT * FROM dictionary');
 
         $words = [];
@@ -76,7 +84,7 @@ class Model extends Models
             }
         }
 
-        $words = implode(':',$words);
+        $words = implode(':', $words);
 
         if (empty($words)) {
             $question = R::dispense('unanswered');
@@ -90,6 +98,5 @@ class Model extends Models
         $question->question = $data['questionUser'];
         $question->category = $data['categoryUser'];
         R::store($question);
-
     }
 }

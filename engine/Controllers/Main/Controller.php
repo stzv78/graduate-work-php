@@ -27,4 +27,9 @@ class Controller extends Controllers
         $array = $this->model->getData('question');
         $this->view->render('question', $array);
     }
+
+    public function actionEcho()
+    {
+        echo "Тут все работает!";
+    }
 }

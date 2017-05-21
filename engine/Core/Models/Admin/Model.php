@@ -17,8 +17,9 @@ class Model extends Models
 
     private function admin()
     {
-        if (isset($_SESSION['adminLog'])) {
-            header('Location:/?/admin/login');
+        if (!isset($_SESSION['adminId'])) {
+            redirect('?/admin/login');
+            exit;
         }
 
         return [
@@ -26,28 +27,29 @@ class Model extends Models
                 'title' => 'Панель администратора'
             ],
             'data' => [
-                'header' => 'Привет админ!'
+                'header' => 'Привет ' . $_SESSION['adminLogin'] . '!'
             ]
         ];
     }
 
     private function login()
     {
-        if (!isset($_SESSION['adminLog'])) {
-            header('Location:/?/admin');
+        if (isset($_SESSION['adminId'])) {
+            redirect('?/admin');
+            exit;
         }
 
         $errors = [];
         $data = $_POST;
 
-        if ($data['loginLog'] === '') {
-            $errors[] = 'Введите логин';
-        }
-        if ($data['passwordLog'] === '') {
-            $errors[] = 'Введите пароль';
-        }
+        if (isset($data['goLogin'])) {
 
-        if (empty($errors) && isset($data['goLogin'])) {
+            if ($data['loginLog'] === '') {
+                $errors[] = 'Введите логин';
+            }
+            if ($data['passwordLog'] === '') {
+                $errors[] = 'Введите пароль';
+            }
 
             $admin = $dictionary = R::findOne('admin', 'login = ?', [$data['loginLog']]);
 
@@ -60,14 +62,12 @@ class Model extends Models
             }
 
             if (empty($errors)) {
-                session_start();
-                $_SESSION['adminLog'] = true;
-                $_SESSION['login'] = $admin['login'];
-                $_SESSION['id'] = $admin['id'];
-                header('Locatin:Location:/?/admin');
+                $_SESSION['adminLogin'] = $admin['login'];
+                $_SESSION['adminId'] = $admin['id'];
+                redirect('?/admin');
+                exit;
             }
         }
-
         return [
             'header' => [
                 'title' => 'Панель администратора'

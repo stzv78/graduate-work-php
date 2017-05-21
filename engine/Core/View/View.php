@@ -14,6 +14,8 @@ class View
      */
     public function render($name, $array = [])
     {
+        $array['data']['thisHost'] = HOST;
+        $array['header']['thisHost'] = HOST;
         $twig = $this->twigInit();
         $this->display($twig, 'header', $array['header']);
         $this->display($twig, $name, $array['data']);
@@ -29,10 +31,10 @@ class View
     private function twigInit()
     {
         $loader = new \Twig_Loader_Filesystem(TWIG_TEMPLATES);
-        $twig = new \Twig_Environment($loader, array(
+        $twig = new \Twig_Environment($loader, [
             'cache' => TWIG_CACHE,
             'auto_reload' => true
-        ));
+        ]);
         return $twig;
     }
 }

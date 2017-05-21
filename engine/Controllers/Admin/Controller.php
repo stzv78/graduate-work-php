@@ -24,4 +24,10 @@ class Controller extends Controllers
         $array = $this->model->getData('login');
         $this->view->render('login', $array);
     }
+
+    public function actionLogout()
+    {
+        session_destroy();
+        redirect('');
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 function redirect($uri = '') {
-    header('Location:' . $uri);
+    header('Location:' . HOST . $uri);
 }
 
 function getPathController($controllerName) {

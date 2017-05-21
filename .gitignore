@@ -1,3 +1,4 @@
+# Игнор-лист файлов проекта
 vendor/
 .idea/
-cache/
+cache/*

@@ -18,4 +18,10 @@ class Controller extends Controllers
         $array = $this->model->getData('admin');
         $this->view->render('admin', $array);
     }
+
+    public function actionLogin()
+    {
+        $array = $this->model->getData('login');
+        $this->view->render('login', $array);
+    }
 }

@@ -29,6 +29,7 @@ class Model extends Models
     {
         $errors = [];
         $data = $_POST;
+
         if ($data['nameUser'] === '') {
             $errors[] = 'Введите имя*';
         }
@@ -45,13 +46,9 @@ class Model extends Models
             $errors[] = 'В тексте должно быть меньше 1000 сиволов*';
         }
 
-        if (empty($errors) && isset($_POST['goQuestion'])) {
-            $question = R::dispense('unanswered');
-            $question->name = $_POST['nameUser'];
-            $question->email = $_POST['emailUser'];
-            $question->question = $_POST['questionUser'];
-            R::store($question);
-            $data['success'] = 'Вопрос отправлен';
+        if (empty($errors) && isset($data['goQuestion'])) {
+            self::questionRecord($data);
+            $data['success'] = 'Вопрос отправлен!';
         }
 
         $categories = R::getAll('SELECT * FROM categories');
@@ -67,5 +64,32 @@ class Model extends Models
                 'categories' => $categories
             ]
         ];
+    }
+
+    static private function questionRecord($data) {
+        $dictionary = R::getAll('SELECT * FROM dictionary');
+
+        $words = [];
+        foreach ($dictionary as $id => $word) {
+            if (strpos($data['questionUser'], $word['word']) !== false) {
+                $words[] = $word['id'];
+            }
+        }
+
+        $words = implode(':',$words);
+
+        if (empty($words)) {
+            $question = R::dispense('unanswered');
+        } else {
+            $question = R::dispense('blocked');
+            $question->words = $words;
+        }
+
+        $question->name = $data['nameUser'];
+        $question->email = $data['emailUser'];
+        $question->question = $data['questionUser'];
+        $question->category = $data['categoryUser'];
+        R::store($question);
+
     }
 }

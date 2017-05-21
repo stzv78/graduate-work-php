@@ -23,7 +23,7 @@ class Router
         $pathController = getPathController($controllerName);
         if (!file_exists($pathController)) {
             echo 404;
-            #Router::ErrorPage404();
+            #self::ErrorPage404();
         }
 
         $controllerName = 'Engine\Controllers\\' . $controllerName . '\\Controller';
@@ -34,7 +34,7 @@ class Router
             $controller->$action();
         } else {
             echo 404;
-            #Router::ErrorPage404();
+            #self::ErrorPage404();
         }
 
     }

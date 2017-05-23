@@ -22,7 +22,7 @@
             </tr>
             {% for question in questions['unanswered'] %}
                 <tr>
-                    <form method="POST">
+                    <form action="{{ thisHost }}?/admin/edit" method="POST">
                         <td>{{ question['id'] }}<input type="hidden" value="{{ question['id'] }}" name="unanswered">
                         </td>
                         <td>
@@ -73,7 +73,7 @@
             </tr>
             {% for question in questions['blocked'] %}
                 <tr>
-                    <form method="POST">
+                    <form action="{{ thisHost }}?/admin/edit" method="POST">
                         <td>{{ question['id'] }}<input type="hidden" value="{{ question['id'] }}" name="blocked"></td>
                         <td>
                             <input type="text" name="name" value="{{ question['name'] }}">

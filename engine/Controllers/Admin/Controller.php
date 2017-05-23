@@ -15,7 +15,7 @@ class Controller extends Controllers
 
     public function actionIndex()
     {
-        $array = $this->model->getData('admin');
+        $array = $this->model->getData('index');
         $this->view->render('admin', $array);
     }
 
@@ -23,6 +23,20 @@ class Controller extends Controllers
     {
         $array = $this->model->getData('login');
         $this->view->render('login', $array);
+    }
+
+    public function actionEdit()
+    {
+        $array = $this->model->getData('edit');
+        $this->view->render('edit', $array);
+    }
+
+    public function actionCategory() {
+        $this->model->getData('category');
+    }
+
+    public function actionDictionary() {
+        $this->model->getData('dictionary');
     }
 
     public function actionLogout()

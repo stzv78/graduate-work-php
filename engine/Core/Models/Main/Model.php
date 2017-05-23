@@ -47,8 +47,8 @@ class Model extends Models
             if ($data['questionUser'] === '') {
                 $errors[] = 'Введите вопрос*';
             }
-            if (mb_strlen($data['questionUser']) >= 1000) {
-                $errors[] = 'В тексте должно быть меньше 1000 сиволов*';
+            if (mb_strlen($data['questionUser']) >= 250) {
+                $errors[] = 'В тексте должно быть меньше 250 сиволов*';
             }
 
             if (empty($errors)) {
@@ -65,7 +65,7 @@ class Model extends Models
             ],
             'data' => [
                 'header' => 'Задать вопрос',
-                'error' => array_shift($errors),
+                'error' => @array_shift($errors),
                 'data' => $data,
                 'categories' => $categories,
                 'ok' => @$ok
@@ -97,6 +97,7 @@ class Model extends Models
         $question->email = $data['emailUser'];
         $question->question = $data['questionUser'];
         $question->category = $data['categoryUser'];
+        $question->time = R::isoDateTime();
         R::store($question);
     }
 }

@@ -1,118 +1,262 @@
 <div class="container">
     <h1>{{ header }}</h1>
-    <ul class="cd-faq-categories">
-        <li><a class="selected" href="#basics">Вопросы</a></li>
-        <li><a href="#themes">Темы</a></li>
-        <li><a href="#blocked">Запрещённые слова</a></li>
-        <li><a href="#account">Администраторы</a></li>
-    </ul> <!-- cd-faq-categories -->
 </div>
 
-<div class="container-fluid">
-    <div>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <th>ID</th>
-                <th>Имя</th>
-                <th>Почта</th>
-                <th>Вопрос</th>
-                <th>Ответ</th>
-                <th>Категория</th>
-                <th></th>
-            </tr>
-            {% for question in questions['unanswered'] %}
-                <tr>
-                    <form method="POST">
-                        <td>{{ question['id'] }}<input type="hidden" value="{{ question['id'] }}" name="unanswered">
-                        </td>
-                        <td>
-                            <input type="text" name="name" value="{{ question['name'] }}">
-                        </td>
-                        <td>
-                            <input type="text" name="email" value="{{ question['email'] }}">
-                        </td>
-                        <td>
-                        <textarea name="question" cols="40"
-                                  rows="3">{{ question['question'] }}</textarea>
-                        </td>
-                        <td>
-                            <textarea name="answer" cols="40" rows="3"></textarea>
-                        </td>
-                        <td>
-                            <select name="category">
-                                <option value="0">Выберите котегорию</option>
+<div class="panel-group" id="collapse-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse-group" href="#el1">Вопросы без ответа</a>
+            </h4>
+        </div>
+        <div id="el1" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Почта</th>
+                        <th>Вопрос</th>
+                        <th>Время</th>
+                        <th>Категория</th>
+                        <th></th>
+                    </tr>
+                    {% for question in questions['unanswered'] %}
+                        <tr>
+                            <td>{{ question['id'] }}</td>
+                            <td>{{ question['name'] }}</td>
+                            <td>{{ question['email'] }}</td>
+                            <td>{{ question['question'] }}</td>
+                            <td>{{ question['time'] }}</td>
+                            <td>
                                 {% for category in categories %}
-                                    <option value="{{ category['id'] }}"
-                                            {% if question['category'] == category['id'] %}
-                                    selected
-                                            {% endif %}>
-                                        {{ category['title'] }}</option>
+                                    {% if question['category'] == category['id'] %}
+                                        {{ category['title'] }}
+                                    {% endif %}
                                 {% endfor %}
-                            </select>
-                        </td>
-                        <td>
-                            <input type="submit" value="Сохранить" name="updateQuestion">
-                        </td>
-                    </form>
-                </tr>
-            {% endfor %}
-        </table>
+                            </td>
+                            <td>
+                                <form action="{{ thisHost }}?/admin/edit" method="POST">
+                                    <input type="hidden" value="{{ question['id'] }}" name="id">
+                                    <input type="hidden" value="unanswered" name="type">
+                                    <button type="submit" class="btn btn-default btn-xs" title="Ответить">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                    <br>
+                                    <button type="submit" name="action" value="delete"
+                                            class="btn btn-default btn-xs"
+                                            title="Удалить">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
-
-    <div>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <th>ID</th>
-                <th>Имя</th>
-                <th>Почта</th>
-                <th>Вопрос</th>
-                <th>Ответ</th>
-                <th>Категория</th>
-                <th>Запрещенные слова</th>
-                <th></th>
-            </tr>
-            {% for question in questions['blocked'] %}
-                <tr>
-                    <form method="POST">
-                        <td>{{ question['id'] }}<input type="hidden" value="{{ question['id'] }}" name="blocked"></td>
-                        <td>
-                            <input type="text" name="name" value="{{ question['name'] }}">
-                        </td>
-                        <td>
-                            <input type="text" name="email" value="{{ question['email'] }}">
-                        </td>
-                        <td>
-                        <textarea name="question" cols="40"
-                                  rows="3">{{ question['question'] }}</textarea>
-                        </td>
-                        <td>
-                            <textarea name="answer" cols="40" rows="3"></textarea>
-                        </td>
-                        <td>
-                            <select name="category">
-                                <option value="0">Выберите котегорию</option>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse-group" href="#el2">Заблокированные вопросы</a>
+            </h4>
+        </div>
+        <div id="el2" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Почта</th>
+                        <th>Вопрос</th>
+                        <th>Время</th>
+                        <th>Категория</th>
+                        <th>Запрещенные слова</th>
+                        <th></th>
+                    </tr>
+                    {% for question in questions['blocked'] %}
+                        <tr>
+                            <td>{{ question['id'] }}</td>
+                            <td>{{ question['name'] }}</td>
+                            <td>{{ question['email'] }}</td>
+                            <td>{{ question['question'] }}</td>
+                            <td>{{ question['time'] }}</td>
+                            <td>
                                 {% for category in categories %}
-                                    <option value="{{ category['id'] }}"
-                                            {% if question['category'] == category['id'] %}
-                                    selected
-                                            {% endif %}>
-                                        {{ category['title'] }}</option>
+                                    {% if question['category'] == category['id'] %}
+                                        {{ category['title'] }}
+                                    {% endif %}
                                 {% endfor %}
-                            </select>
-                        </td>
-                        <td>
-                            {% for word in dictionary %}
-                                {% if word['id'] in question['words'] %}
-                                    {{ word['word'] }}<br>
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td>
-                            <input type="submit" value="Сохранить" name="updateQuestion">
-                        </td>
-                    </form>
-                </tr>
-            {% endfor %}
-        </table>
+                            </td>
+                            <td>
+                                {% for word in dictionary %}
+                                    {% if word['id'] in question['words'] %}
+                                        {{ word['word'] }}<br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <form action="{{ thisHost }}?/admin/edit" method="POST">
+                                    <input type="hidden" value="{{ question['id'] }}" name="id">
+                                    <input type="hidden" value="blocked" name="type">
+                                    <button type="submit" class="btn btn-default btn-xs" title="Ответить">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                    <br>
+                                    <button type="submit" name="action" value="delete"
+                                            class="btn btn-default btn-xs"
+                                            title="Удалить">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse-group" href="#el3">Вопросы с ответом</a>
+            </h4>
+        </div>
+        <div id="el3" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Почта</th>
+                        <th>Вопрос</th>
+                        <th>Ответ</th>
+                        <th>Время</th>
+                        <th>Категория</th>
+                        <th></th>
+                    </tr>
+                    {% for question in questions['answer'] %}
+                        <tr>
+                            <td>{{ question['id'] }}</td>
+                            <td>{{ question['name'] }}</td>
+                            <td>{{ question['email'] }}</td>
+                            <td>{{ question['question'] }}</td>
+                            <td>{{ question['answers'] }}</td>
+                            <td>{{ question['time'] }}</td>
+                            <td>
+                                {% for category in categories %}
+                                    {% if question['category'] == category['id'] %}
+                                        {{ category['title'] }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <form action="{{ thisHost }}?/admin/edit" method="POST">
+                                    <input type="hidden" value="{{ question['id'] }}" name="id">
+                                    <input type="hidden" value="answer" name="type">
+                                    <button type="submit" class="btn btn-default btn-xs" title="Редактировать">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                    <br>
+                                    <button type="submit" name="action" value="delete"
+                                            class="btn btn-default btn-xs"
+                                            title="Удалить">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                    <br>
+                                    {% if question['hidden'] == '0' %}
+                                        <button type="submit" name="action" value="hidden"
+                                                class="btn btn-default btn-xs"
+                                                title="Скрыть">
+                                            <span class="glyphicon glyphicon-eye-close"></span>
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" name="action" value="open"
+                                                class="btn btn-default btn-xs"
+                                                title="Открыть">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </button>
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse-group" href="#el4">Список категорий</a>
+            </h4>
+        </div>
+        <div id="el4" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Заголовок</th>
+                    </tr>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category['id'] }}</td>
+                            <td>
+                                <form method="POST" action="{{ thisHost }}?/admin/category">
+                                    <input type="hidden" name="id" value="{{ category['id'] }}">
+                                    <input type="text" name="title" value="{{ category['title'] }}">
+                                    <button type="submit" name="action" value="save"
+                                            class="btn btn-default btn-xs"
+                                            title="Сохранить">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button type="submit" name="action" value="delete"
+                                            class="btn btn-default btn-xs"
+                                            title="Удалить">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <form method="POST" action="{{ thisHost }}?/admin/category">
+                    <p>
+                        <lable id="name">Добавить:</lable>
+                        <input id="name" type="text" name="title" placeholder="Заголовок">
+                        <button type="submit" name="action" value="add"
+                                class="btn btn-default"
+                                title="Добавить">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <span style="color: chocolate">*Пустой заголовок не сохранится</span>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse-group" href="#el5">Список ключевых слов</a>
+            </h4>
+        </div>
+        <div id="el5" class="panel-collapse collapse">
+            <div class="container">
+                <p>*Слова или словосочетание разделяются запятой и пробелом
+                    <br><span style="color: #a9c056">Пример: "Слово, очень плохое слово"</span>
+                    <br><span style="color: #dd4444">Плохой пример: "Сло во , очень плохое слово, "</span>
+                </p>
+                <form action="{{ thisHost }}?/admin/dictionary">
+                    <textarea name="dictionary" cols="40" rows="3">{{ dictionary }}</textarea><br>
+                    <button type="submit" name="action" value="add"
+                            class="btn btn-default"
+                            title="Сохранить">
+                        <span class="glyphicon glyphicon-ok-circle"></span>Сохранить
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

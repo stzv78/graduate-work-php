@@ -258,7 +258,7 @@ header h1 {
 @media only screen and (min-width: 1024px) {
   .cd-faq-items {
     float: none;
-    width: 100%;
+    width: 111%;
     padding-left: 220px;
   }
   .no-js .cd-faq-items {

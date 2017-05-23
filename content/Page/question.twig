@@ -1,28 +1,44 @@
-<header>
+<div class="container-fluid">
     <h1>{{ header }}</h1>
-</header>
-{% if data['success'] %}
-    <p style="color: #a9c056">{{ data['success'] }}</p>
-    <p><a href="{{ thisHost }}">Вернутся назад</a></p>
-{% else %}
-    <p style="color: #dd4444">{{ error }}</p>
-    <div>
+</div>
+<div class="container">
+    {% if data['success'] %}
+        <p style="color: #a9c056">{{ data['success'] }}</p>
+        <p><a href="{{ thisHost }}">Вернутся назад</a></p>
+    {% else %}
+        <p style="color: #dd4444">{{ error }}</p>
         <form method="POST">
-            <input type="text" name="nameUser" placeholder="Андрей" value="{{ data['nameUser'] }}"><br>
-            <input type="email" name="emailUser" placeholder="andrey@domin.com" value="{{ data['emailUser'] }}"><br>
-            <select name="categoryUser">
-                <option value="0">Выберите котегорию</option>
-                {% for category in categories %}
-                    <option value="{{ category['id'] }}"
-                            {% if data['categoryUser'] == category['id'] %}
-                    selected
-                            {% endif %}>
-                        {{ category['title'] }}</option>
-                {% endfor %}
-            </select><br>
-            <textarea name="questionUser" cols="40" rows="3" value="{{ data['questionUser'] }}"
-                      placeholder="Напишите свой вопрос, не более 1000 символов"></textarea><br>
-            <input type="submit" name="goQuestion">
+            <p>
+                <lable id="name">Имя:</lable>
+                <br/>
+                <input type="text" id="name" name="nameUser" placeholder="Андрей" value="{{ data['nameUser'] }}">
+            </p>
+            <p>
+                <lable id="email">E-mail:</lable>
+                <br/>
+                <input type="email" id="email" name="emailUser" placeholder="andrey@domin.com"
+                       value="{{ data['emailUser'] }}">
+            </p>
+            <p>
+                <lable id="category">Категория:</lable>
+                <br/>
+                <select name="categoryUser" id="category">
+                    <option value="0">Выберите котегорию</option>
+                    {% for category in categories %}
+                        <option value="{{ category['id'] }}"
+                                {% if data['categoryUser'] == category['id'] %}
+                        selected
+                                {% endif %}>
+                            {{ category['title'] }}</option>
+                    {% endfor %}
+                </select><br>
+            <p>
+                <lable id="question">Вопрос:</lable>
+                <br/>
+                <textarea id="question" name="questionUser" cols="40" rows="3"
+                          placeholder="Напишите свой вопрос, не более 250 символов">{{ data['questionUser'] }}</textarea><br>
+                <input type="submit" name="goQuestion">
+            </p>
         </form>
-    </div>
-{% endif %}
+    {% endif %}
+</div>

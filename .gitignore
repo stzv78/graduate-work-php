@@ -4,6 +4,8 @@
 
 vendor/
 .idea/
-cache/*
 
 # ------ ФАЙЛЫ -------
+
+cache/*
+log/*

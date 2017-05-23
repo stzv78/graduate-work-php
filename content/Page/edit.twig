@@ -1,0 +1,57 @@
+<h1>{{ header }}</h1>
+<div class="container">
+    <p>Статус вопроса:
+        {% if question['type'] == 'unanswered' %}
+            <span style="color: coral">БЕЗ ОТВЕТА</span>
+        {% elseif question['type'] == 'blocked' %}
+            <span style="color: #dd4444;">ЗАБЛОКИРОВАН</span>
+        {% elseif question['type'] == 'answer' %}
+            <span style="color: #a9c056;">ОТВЕЧЕН</span>
+        {% endif %}
+        id:{{ question['id'] }}</p>
+    {% if error is not empty %}
+        <p style="color: #dd4444;">{{ error }}</p>
+    {% endif %}
+    <form action="{{ thisHost }}?/admin/edit" method="POST">
+        <input type="hidden" name="type" value="{{ question['type'] }}">
+        <input type="hidden" name="id" value="{{ question['id'] }}">
+        <input type="hidden" name="time" value="{{ question['time'] }}">
+        <input type="hidden" name="hidden" value="{{ question['hidden'] }}">
+        <p>
+            <lable id="name">Имя:</lable>
+            <br/>
+            <input id="name" type="text" name="name" value="{{ question['name'] }}">
+        </p>
+        <p>
+            <lable id="email">E-mail:</lable>
+            <br/>
+            <input id="email" type="email" name="email" value="{{ question['email'] }}">
+        </p>
+        <p>
+            <lable id="question">Вопрос:</lable>
+            <br/>
+            <textarea name="question" cols="40" rows="3">{{ question['question'] }}</textarea>
+        </p>
+        <p>
+            <lable id="answers">Ответ:</lable>
+            <br/>
+            <textarea name="answers" id="answers" cols="40"
+                      rows="3">{% if question['answers'] is not empty %}{{ question['answers'] }}{% endif %}</textarea>
+        </p>
+        <p>
+            <lable id="category">Категория:</lable>
+            <br/>
+            <select name="category" id="category">
+                <option value="0">Выберите котегорию</option>
+                {% for category in categories %}
+                    <option value="{{ category['id'] }}"
+                            {% if question['category'] == category['id'] %}
+                    selected
+                            {% endif %}>
+                        {{ category['title'] }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <input type="submit" value="Сохранить" name="updateQuestion">
+    </form>
+</div>

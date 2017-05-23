@@ -39,6 +39,10 @@ class Controller extends Controllers
         $this->model->getData('dictionary');
     }
 
+    public function actionAdmin() {
+        $this->model->getData('admin');
+    }
+
     public function actionLogout()
     {
         session_destroy();

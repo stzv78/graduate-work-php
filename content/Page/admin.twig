@@ -246,15 +246,70 @@
             <div class="container">
                 <p>*Слова или словосочетание разделяются запятой и пробелом
                     <br><span style="color: #a9c056">Пример: "Слово, очень плохое слово"</span>
-                    <br><span style="color: #dd4444">Плохой пример: "Сло во , очень плохое слово, "</span>
+                    <br><span style="color: #dd4444">Плохой пример: "Сло во , оченьплохое слово, "</span>
                 </p>
-                <form action="{{ thisHost }}?/admin/dictionary">
-                    <textarea name="dictionary" cols="40" rows="3">{{ dictionary }}</textarea><br>
-                    <button type="submit" name="action" value="add"
-                            class="btn btn-default"
-                            title="Сохранить">
+                <form method="POST" action="{{ thisHost }}?/admin/dictionary">
+                    <textarea name="dictionary" cols="40" rows="3">{{ dictionary }}</textarea>
+                    <br><br>
+                    <button type="submit" class="btn btn-default" title="Сохранить">
                         <span class="glyphicon glyphicon-ok-circle"></span>Сохранить
                     </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse-group" href="#el6">Список администраторов</a>
+            </h4>
+        </div>
+        <div id="el6" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Данные</th>
+                    </tr>
+                    {% for admin in admins %}
+                        <tr>
+                            <td>{{ admin['id'] }}</td>
+                            <td>
+                                <form method="POST" action="{{ thisHost }}?/admin/admin">
+                                    <input type="hidden" name="id" value="{{ admin['id'] }}">
+                                    <input type="text" name="login" value="{{ admin['login'] }}">
+                                    <input type="text" name="password" placeholder="password">
+                                    <button type="submit" name="action" value="save"
+                                            class="btn btn-default btn-xs"
+                                            title="Сохранить">
+                                        <span class="glyphicon glyphicon-refresh"></span>
+                                    </button>
+                                    {% if admin['id'] != 1 %}
+                                        <button type="submit" name="action" value="delete"
+                                                class="btn btn-default btn-xs"
+                                                title="Удалить">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <form method="POST" action="{{ thisHost }}?/admin/admin">
+                    <p>
+                        <lable id="name">Добавить:</lable>
+                        <input id="name" type="text" name="login" placeholder="login">
+                        <input id="name" type="text" name="password" placeholder="password">
+                        <button type="submit" name="action" value="add"
+                                class="btn btn-default"
+                                title="Добавить">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <span style="color: chocolate">
+                            *Логин и пароль должны состоят из цифр и букв латинского альфавита
+                        </span>
+                    </p>
                 </form>
             </div>
         </div>

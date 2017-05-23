@@ -109,7 +109,8 @@ class Model extends Models
      */
     private function getAdmins()
     {
-        //return array с админами
+        $admin = R::getAll('SELECT * FROM admin');
+        return $admin;
     }
 
     /**
@@ -366,13 +367,13 @@ class Model extends Models
     protected function category()
     {
         $data = $_POST;
-        var_dump($data);
 
         if ($data['title'] === '') {
             redirect('?/admin');
         }
 
         if ($data['action'] === 'save') {
+            logAdmin('обновил (id:' . $data['id'] . ') категорию: ' . trim($data['title']));
             $categories = R::findOne('categories', 'id = ?', [$data['id']]);
             $categories->title = trim($data['title']);
             R::store($categories);
@@ -380,6 +381,7 @@ class Model extends Models
         }
 
         if ($data['action'] === 'delete') {
+            logAdmin('удалил категорию: ' . trim($data['title']));
             foreach (self::getQuestions() as $table => $questions) {
                 foreach ($questions as $key => $question) {
                     if ($question['category'] === $data['id']) {
@@ -403,14 +405,104 @@ class Model extends Models
 
     /**
      * ======================================================
-     * Метод category
+     * Метод dictionary
      *
-     *  - Проверяет данные
-     *  - Перезаписывает категорию
-     *  - Удаляет категорию и все вопросы этой категории
-     *  - Добавляет новую категорию
+     *  - Работает со словарем ключевых слов
      *
      * ======================================================
      */
-    protected function
+    protected function dictionary()
+    {
+        $data = $_POST;
+
+        if (!isset($data['dictionary'])) {
+            redirect('?/admin');
+        }
+
+        $data['dictionary'] = trim($data['dictionary']);
+
+        $getDictionary = R::getAll('SELECT * FROM dictionary');;
+        foreach ($getDictionary as $key => $word) {
+            if (strpos($data['dictionary'], $word['word']) === false) {
+                $deleteWord = R::load('dictionary', $word['id']);
+                R::trash($deleteWord);
+            }
+        }
+
+        $words = explode(', ', $data['dictionary']);
+        foreach ($words as $key => $word) {
+            $getWord = R::getAll('SELECT word FROM dictionary WHERE word = ?', [$word]);
+            if (empty($getWord)) {
+                $dictionary = R::dispense('dictionary');
+                $dictionary->word = $word;
+                R::store($dictionary);
+            }
+        }
+        logAdmin('обновил словарь');
+        redirect('?/admin');
+    }
+
+    /**
+     * ======================================================
+     * Метод admin
+     *
+     *  - Работает с администраторами
+     *
+     *    - Обновляет данные
+     *    - Удаляет
+     *    - Создаёт
+     *
+     *  - Логирует
+     *
+     * ======================================================
+     */
+    protected function admin()
+    {
+        $data = $_POST;
+
+        if ($data['action'] === 'delete') {
+            $admin = R::load('admin', $data['id']);
+            R::trash($admin);
+            logAdmin('удалил администратора: ' . $admin['login']);
+            redirect('?/admin');
+        }
+
+        if ($data['action'] === 'save') {
+            $admin = R::findOne('admin', 'id = ?', [$data['id']]);
+            if (trim($data['login']) !== '') {
+                $admin->login = trim($data['login']);
+            }
+            if (trim($data['password']) !== '') {
+                $admin->password = password_hash(trim($data['password']), PASSWORD_DEFAULT);
+            }
+            R::store($admin);
+            logAdmin('обновил администратора (id:' . $data['id'] . ')');
+            redirect('?/admin');
+        }
+
+        if ($data['action'] === 'add') {
+            if (trim($data['login']) === '') {
+                redirect('?/admin');
+            }
+            if (trim($data['password']) === '') {
+                redirect('?/admin');
+            }
+            if (!(preg_match('/^[a-zA-Z0-9]+$/', trim($data['login'])))) {
+                redirect('?/admin');
+            }
+            if (!(preg_match('/^[a-zA-Z0-9]+$/', trim($data['password'])))) {
+                redirect('?/admin');
+            }
+            if (!empty(R::getAll('SELECT * FROM admin WHERE login = ?', [$data['login']]))) {
+                redirect('?/admin');
+            }
+
+            $admin = R::dispense('admin');
+            $admin->login = $data['login'];
+            $admin->password = password_hash(trim($data['password']), PASSWORD_DEFAULT);
+            R::store($admin);
+            logAdmin('добавил администратора: ' . $data['login']);
+            redirect('?/admin');
+        }
+    }
 }

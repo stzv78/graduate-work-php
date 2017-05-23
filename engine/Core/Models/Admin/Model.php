@@ -54,6 +54,7 @@ class Model extends Models
         $categories = self::getCategories();
         $admins = self::getAdmins();
         $dictionary = self::getDictionary();
+        $words = R::getAll('SELECT * FROM dictionary');
 
         return [
             'header' => [
@@ -64,7 +65,8 @@ class Model extends Models
                 'questions' => $questions,
                 'categories' => $categories,
                 'admins' => $admins,
-                'dictionary' => $dictionary
+                'dictionary' => $dictionary,
+                'words' => $words
             ]
         ];
     }
@@ -474,6 +476,9 @@ class Model extends Models
             }
             if (trim($data['password']) !== '') {
                 $admin->password = password_hash(trim($data['password']), PASSWORD_DEFAULT);
+            }
+            if ($_SESSION['adminId'] === $data['id']) {
+                session_destroy();
             }
             R::store($admin);
             logAdmin('обновил администратора (id:' . $data['id'] . ')');

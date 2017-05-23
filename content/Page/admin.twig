@@ -1,5 +1,8 @@
 <div class="container">
     <h1>{{ header }}</h1>
+        <a class="btn btn-default" href="{{ thisHost }}?/admin/logout">
+            <span class="glyphicon glyphicon-off"></span>Выйти
+        </a>
 </div>
 
 <div class="panel-group" id="collapse-group">
@@ -90,7 +93,7 @@
                                 {% endfor %}
                             </td>
                             <td>
-                                {% for word in dictionary %}
+                                {% for word in words %}
                                     {% if word['id'] in question['words'] %}
                                         {{ word['word'] }}<br>
                                     {% endif %}

@@ -5,6 +5,16 @@ namespace Engine\Core\Models\Main;
 use Engine\Core\Models\Models;
 use RedBeanPHP\R;
 
+/**
+ * ======================================================
+ * Class Model
+ *  Контроллер Engine\Controllers\Admin\Controller
+ *
+ *  Методы protected вызываются контроллером
+ *  Методы private вызываются моделью
+ *
+ * ======================================================
+ */
 class Model extends Models
 {
     public function getData($method)
@@ -15,12 +25,17 @@ class Model extends Models
 
     private function index()
     {
+        var_dump($questions);
+        var_dump($categories);
         return [
             'header' => [
-                'title' => 'F.A.Q.'
+                'title' => 'F.A.Q.',
+                'theme' => 'index'
             ],
             'data' => [
-                'header' => 'F.A.Q.'
+                'header' => 'F.A.Q.',
+                'categories' => $categories,
+                'questions' => $questions
             ]
         ];
     }
@@ -68,7 +83,7 @@ class Model extends Models
                 'error' => @array_shift($errors),
                 'data' => $data,
                 'categories' => $categories,
-                'ok' => @$ok
+                'ok' => @$ok //$ok не трогать, твиг сломается
             ]
         ];
     }

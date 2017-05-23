@@ -3,17 +3,19 @@
 namespace Engine\Controllers\Main;
 
 use Engine\Controllers\Controllers;
-use Engine\Core\Models\Main\Model;
+use Engine\Core\Models\Main\Model as Main;
 
 /**
- * Class Controllers
- * @package Engine\Controllers
+ * ======================================================
+ * Class Controller
+ *  Модель Main
+ * ======================================================
  */
 class Controller extends Controllers
 {
     protected function setModel()
     {
-        $this->model = new Model();
+        $this->model = new Main();
     }
 
     public function actionIndex()

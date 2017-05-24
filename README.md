@@ -5,7 +5,7 @@
 #### ***Ссылки***
  * [Рабочий вариант](http://university.netology.ru/user_data/kotyukov/public/)
  * [Документация](#)
- * [Телеграм-бот](t.me/phpGraduateWorkBot)
+ * [Телеграм-бот](http://t.me/phpGraduateWorkBot)
 
 ### Установка
 

@@ -16,7 +16,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `admin` (`id`, `login`, `password`) VALUES
-(1,	'admin',	'$2y$10$VpnH/JraPIq0Ne7LqXRUDuDXaBv/U9ZEgKuAuwG4NVHGYEyAqglOy'),
+(1,	'admin',	'$2y$10$VpnH/JraPIq0Ne7LqXRUDuDXaBv/U9ZEgKuAuwG4NVHGYEyAqglOy')
 
 DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer` (
@@ -53,7 +53,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `categories` (`id`, `title`) VALUES
-(1,	'Общие вопросы'),
+(1,	'Общие вопросы')
 
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (

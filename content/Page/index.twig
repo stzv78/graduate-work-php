@@ -1,8 +1,7 @@
 <header>
     <h1>{{ header }}</h1>
 </header>
-<p><a href="{{ thisHost }}?/admin/login">Админ</a></p>
-<p><a href="{{ thisHost }}?/main/question">Задать вопрос</a></p>
+<div class="button"><a class="button" href="{{ thisHost }}?/main/question">Задать вопрос</a></div>
 <section class="cd-faq">
     <ul class="cd-faq-categories">
         {% for category in categories %}

@@ -451,3 +451,22 @@ header h1 {
     display: block;
   }
 }
+
+a.button {
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  border-radius: 3px;
+  background: #a9c056;
+  box-shadow: 0 -3px #778b43 inset;
+  transition: 0.2s;
+}
+a.button:hover { background: #778b43; }
+a.button:active {
+  background: #667a3d;
+  box-shadow: 0 3px #a9c056 inset;
+}
+div.button {
+  margin: 2% 1%;
+}

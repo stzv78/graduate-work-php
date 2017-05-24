@@ -219,7 +219,11 @@ class Model extends Models
         if (isset($data['action'])) {
 
             if ($data['action'] === 'delete') {
-                $category = self::getCategory($queistion['category']);
+                if ($queistion['category'] != 0) {
+                    $category = self::getCategory($queistion['category']);
+                } else {
+                    $category = 'Сообщения из телеграма';
+                }
                 logAdmin('удалил вопрос: ' . $data['type'] . ' из категории: ' . $category);
                 self::trashQuestion($data['type'], $data['id']);
                 redirect('?/admin');

@@ -8,7 +8,7 @@ use RedBeanPHP\R;
 /**
  * ======================================================
  * Class Model
- *  Контроллер Engine\Controllers\Admin\Controller
+ *  Контроллер Engine\Controllers\Main\Controller
  *
  *  Методы protected вызываются контроллером
  *  Методы private вызываются моделью
@@ -23,7 +23,20 @@ class Model extends Models
         return $array;
     }
 
-    private function index()
+    /**
+     * ======================================================
+     * Index-ный метод
+     *
+     *  Собирает данные для вывода:
+     *
+     *  - Вопросы таблицы
+     *    - answer вопросы с ответом*
+     *  - Список категорий
+     *
+     *  Возвращает массив с данными
+     * ======================================================
+     */
+    protected function index()
     {
         $questions = R::getAll('SELECT * FROM answer');
         $categories = R::getAll('SELECT * FROM categories');
@@ -41,9 +54,17 @@ class Model extends Models
     }
 
     /**
-     * @return array
+     * ======================================================
+     * Метод question
+     *
+     *  Получает данные через $_POST
+     *  Обрабатывает данные
+     *  Запускает запись вопроса в БД
+     *
+     *  Возвращает массив с данными
+     * ======================================================
      */
-    private function question()
+    protected function question()
     {
         $errors = [];
         $data = $_POST;
@@ -88,14 +109,19 @@ class Model extends Models
         ];
     }
 
-    static private function questionRecord($data)
+    /**
+     * Записывает вопрос в БД
+     */
+    private function questionRecord($data)
     {
         $dictionary = R::getAll('SELECT * FROM dictionary');
 
         $words = [];
-        foreach ($dictionary as $id => $word) {
-            if (strpos($data['questionUser'], $word['word']) !== false) {
-                $words[] = $word['id'];
+        if (!empty($dictionary)) {
+            foreach ($dictionary as $id => $word) {
+                if (strpos($data['questionUser'], $word['word']) !== false) {
+                    $words[] = $word['id'];
+                }
             }
         }
 

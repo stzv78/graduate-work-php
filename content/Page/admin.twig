@@ -1,8 +1,8 @@
 <div class="container">
     <h1>{{ header }}</h1>
-        <a class="btn btn-default" href="{{ thisHost }}?/admin/logout">
-            <span class="glyphicon glyphicon-off"></span>Выйти
-        </a>
+    <a class="btn btn-default" href="{{ thisHost }}?/admin/logout">
+        <span class="glyphicon glyphicon-off"></span>Выйти
+    </a>
 </div>
 
 <div class="panel-group" id="collapse-group">
@@ -128,64 +128,64 @@
         </div>
         <div id="el3" class="panel-collapse collapse">
             <div class="panel-body table-responsive">
-                <table class="table table-bordered table-hover">
-                    <tr>
-                        <th>ID</th>
-                        <th>Имя</th>
-                        <th>Почта</th>
-                        <th>Вопрос</th>
-                        <th>Ответ</th>
-                        <th>Время</th>
-                        <th>Категория</th>
-                        <th></th>
-                    </tr>
-                    {% for question in questions['answer'] %}
-                        <tr>
-                            <td>{{ question['id'] }}</td>
-                            <td>{{ question['name'] }}</td>
-                            <td>{{ question['email'] }}</td>
-                            <td>{{ question['question'] }}</td>
-                            <td>{{ question['answers'] }}</td>
-                            <td>{{ question['time'] }}</td>
-                            <td>
-                                {% for category in categories %}
-                                    {% if question['category'] == category['id'] %}
-                                        {{ category['title'] }}
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                <form action="{{ thisHost }}?/admin/edit" method="POST">
-                                    <input type="hidden" value="{{ question['id'] }}" name="id">
-                                    <input type="hidden" value="answer" name="type">
-                                    <button type="submit" class="btn btn-default btn-xs" title="Редактировать">
-                                        <span class="glyphicon glyphicon-edit"></span>
-                                    </button>
-                                    <br>
-                                    <button type="submit" name="action" value="delete"
-                                            class="btn btn-default btn-xs"
-                                            title="Удалить">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                    <br>
-                                    {% if question['hidden'] == '0' %}
-                                        <button type="submit" name="action" value="hidden"
-                                                class="btn btn-default btn-xs"
-                                                title="Скрыть">
-                                            <span class="glyphicon glyphicon-eye-close"></span>
-                                        </button>
-                                    {% else %}
-                                        <button type="submit" name="action" value="open"
-                                                class="btn btn-default btn-xs"
-                                                title="Открыть">
-                                            <span class="glyphicon glyphicon-eye-open"></span>
-                                        </button>
-                                    {% endif %}
-                                </form>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
+                {% for category in categories %}
+                    <div>
+                        <h3>{{ category['title'] }}</h3>
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <th>ID</th>
+                                <th>Имя</th>
+                                <th>Почта</th>
+                                <th>Вопрос</th>
+                                <th>Ответ</th>
+                                <th>Время</th>
+                                <th></th>
+                            </tr>
+                            {% for question in questions['answer'] %}
+                                {% if question['category'] == category['id'] %}
+                                    <tr>
+                                        <td>{{ question['id'] }}</td>
+                                        <td>{{ question['name'] }}</td>
+                                        <td>{{ question['email'] }}</td>
+                                        <td>{{ question['question'] }}</td>
+                                        <td>{{ question['answers'] }}</td>
+                                        <td>{{ question['time'] }}</td>
+                                        <td>
+                                            <form action="{{ thisHost }}?/admin/edit" method="POST">
+                                                <input type="hidden" value="{{ question['id'] }}" name="id">
+                                                <input type="hidden" value="answer" name="type">
+                                                <button type="submit" class="btn btn-default btn-xs"
+                                                        title="Редактировать">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </button>
+                                                <br>
+                                                <button type="submit" name="action" value="delete"
+                                                        class="btn btn-default btn-xs"
+                                                        title="Удалить">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                                <br>
+                                                {% if question['hidden'] == '0' %}
+                                                    <button type="submit" name="action" value="hidden"
+                                                            class="btn btn-default btn-xs"
+                                                            title="Скрыть">
+                                                        <span class="glyphicon glyphicon-eye-close"></span>
+                                                    </button>
+                                                {% else %}
+                                                    <button type="submit" name="action" value="open"
+                                                            class="btn btn-default btn-xs"
+                                                            title="Открыть">
+                                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                                    </button>
+                                                {% endif %}
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>

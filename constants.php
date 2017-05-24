@@ -1,4 +1,12 @@
 <?php
+/**
+ * ======================================================
+ *
+ *  Собственные константы
+ *
+ * ======================================================
+ */
+
 define('DS', DIRECTORY_SEPARATOR);
 define('TWIG_CACHE', __DIR__ . DS . "cache");
 define('TWIG_TEMPLATES', __DIR__ . DS . "content" . DS . "Page");

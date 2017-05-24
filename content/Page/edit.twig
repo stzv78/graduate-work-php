@@ -16,16 +16,11 @@
         <input type="hidden" name="type" value="{{ question['type'] }}">
         <input type="hidden" name="id" value="{{ question['id'] }}">
         <input type="hidden" name="time" value="{{ question['time'] }}">
-        <input type="hidden" name="hidden" value="{{ question['hidden'] }}">
+        <input type="hidden" name="email" value="{{ question['email'] }}">
         <p>
             <lable id="name">Имя:</lable>
             <br/>
             <input id="name" type="text" name="name" value="{{ question['name'] }}">
-        </p>
-        <p>
-            <lable id="email">E-mail:</lable>
-            <br/>
-            <input id="email" type="email" name="email" value="{{ question['email'] }}">
         </p>
         <p>
             <lable id="question">Вопрос:</lable>

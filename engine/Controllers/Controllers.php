@@ -3,9 +3,12 @@
 namespace Engine\Controllers;
 
 use Engine\Core\View\View;
+
 /**
- * Class Controllers
- * @package Engine\Controllers
+ * ======================================================
+ * Родительский контроллер Controller
+ *  подключает класс View для рендеренга страниц
+ * ======================================================
  */
 abstract class Controllers
 {
@@ -21,7 +24,13 @@ abstract class Controllers
         $this->setModel();
     }
 
+    /**
+     * Метод для подключения модели
+     */
     abstract protected function setModel();
 
+    /**
+     * Метод запуска Index-ной страници модели
+     */
     abstract public function actionIndex();
 }

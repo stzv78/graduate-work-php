@@ -3,12 +3,17 @@
 namespace Engine\Core\View;
 
 /**
- * Class Render
- * @package Engine\Core\Render
+ * ======================================================
+ * Class View
+ *  Подключает TWIG, устанавливает настройки
+ *  Рендерит страници и выводит по запросу и данным
+ *
+ * ======================================================
  */
 class View
 {
     /**
+     * Рендер страниц
      * @param $name
      * @param array $array
      */
@@ -22,12 +27,23 @@ class View
         $this->display($twig, 'footer');
     }
 
+    /**
+     * Рендер и вывод страници
+     * @param $twig
+     * @param $name
+     * @param array $array
+     */
     private function display($twig, $name, $array = [])
     {
         $template = $twig->load($name . '.twig');
         $template->display($array);
     }
 
+    /**
+     * Подключает TWIG
+     * Устанавливает настройки
+     * @return \Twig_Environment
+     */
     private function twigInit()
     {
         $loader = new \Twig_Loader_Filesystem(TWIG_TEMPLATES);

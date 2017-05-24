@@ -13,11 +13,21 @@ use Engine\Core\Models\Main\Model as Main;
  */
 class Controller extends Controllers
 {
+    /**
+     *  Подключает модель
+     */
     protected function setModel()
     {
         $this->model = new Main();
     }
 
+    /**
+     *  Работа методов:
+     *
+     *  - Вызывют запрошенные методы модели
+     *  - Отвправляют данные для рендеринга страниц*(не все методы отправляют данные)
+     *
+     */
     public function actionIndex()
     {
         $array = $this->model->getData('index');

@@ -4,6 +4,7 @@ namespace Engine\Core\Models\Admin;
 
 use Engine\Core\Models\Models;
 use RedBeanPHP\R;
+use TelegramBot\Api\BotApi;
 
 /**
  * ======================================================
@@ -17,6 +18,11 @@ use RedBeanPHP\R;
  */
 class Model extends Models
 {
+    /**
+     * Токен телеграм-бота
+     */
+    private $token = '385602286:AAHi-3lKvIkXy0xEENmC1AElR-73we46kKE';
+
     /**
      * Запускает метод по запросу контроллера
      * @param $method
@@ -32,6 +38,8 @@ class Model extends Models
     /**
      * ======================================================
      * Index-ный метод
+     *
+     *  Запускает телеграм-бота
      *
      *  Собирает данные для вывода:
      *
@@ -50,6 +58,8 @@ class Model extends Models
     {
         self::sessionCheck();
 
+        self::telegramRun();
+
         $questions = self::getQuestions();
         $categories = self::getCategories();
         $admins = self::getAdmins();
@@ -63,17 +73,21 @@ class Model extends Models
                     $amount = isset($categories[$key][$table]) ? $amount : 0;
                     $categories[$key][$table] = $amount;
 
-                    if ($category['id'] === $question['category']) {
+                    $boolean = $category['id'] === $question['category'];
+
+                    if ($boolean) {
                         $amount++;
                         $categories[$key][$table] = $amount;
+                    }
 
-                        $amHidden = isset($categories[$key]['hidden']) ? $amHidden : 0;
+                    $amHidden = isset($categories[$key]['hidden']) ? $amHidden : 0;
+                    $categories[$key]['hidden'] = $amHidden;
+
+                    $booleanHidden = $table == 'answer' && $question['hidden'] == 1 && $boolean;
+
+                    if ($booleanHidden) {
+                        $amHidden++;
                         $categories[$key]['hidden'] = $amHidden;
-
-                        if ($table == 'answer' && $question['hidden'] == 1) {
-                            $amHidden++;
-                            $categories[$key]['hidden'] = $amHidden;
-                        }
                     }
                 }
             }
@@ -101,7 +115,13 @@ class Model extends Models
     private function getQuestions()
     {
         $questions['unanswered'] = R::getAll('SELECT * FROM unanswered');
+        foreach ($questions['unanswered'] as $data) {
+            $data['question'] = htmlspecialchars($data['question'], ENT_QUOTES);
+        }
         $questions['blocked'] = R::getAll('SELECT * FROM blocked');
+        foreach ($questions['blocked'] as $data) {
+            $data['question'] = htmlspecialchars($data['question'], ENT_QUOTES);
+        }
         $questions['answer'] = R::getAll('SELECT * FROM answer');
         return $questions;
     }
@@ -260,15 +280,14 @@ class Model extends Models
             $errors[] = 'Выбирите категорию*';
         }
 
-        if ($data['type'] !== 'answer') {
-            $category = self::getCategory($data['category']);
-            logAdmin('ответил на вопрос: ' . $data['type'] . ' из категории: ' . $category);
-        } else {
-            $category = self::getCategory($data['category']);
-            logAdmin('обновил вопрос: (id:' . $data['id'] . ') из категории: ' . $category);
-        }
-
         if (empty($errors)) {
+            if ($data['type'] !== 'answer') {
+                $category = self::getCategory($data['category']);
+                logAdmin('ответил на вопрос: ' . $data['type'] . ' из категории: ' . $category);
+            } else {
+                $category = self::getCategory($data['category']);
+                logAdmin('обновил вопрос: (id:' . $data['id'] . ') из категории: ' . $category);
+            }
             self::createAnswer($data);
         }
 
@@ -293,6 +312,10 @@ class Model extends Models
      */
     private function createAnswer($data)
     {
+        if (strpos($data['email'], 'telegram') !== false) {
+            $telegram = explode(':', $data['email']);
+            self::getMessageTelegram($telegram[1], $telegram[2], trim($data['answers']));
+        }
         if ($data['type'] !== 'answer') {
             self::trashQuestion($data['type'], $data['id']);
             $answer = R::dispense('answer');
@@ -531,6 +554,94 @@ class Model extends Models
             R::store($admin);
             logAdmin('добавил администратора: ' . $data['login']);
             redirect('?/admin');
+        }
+    }
+
+    /**
+     * ======================================================
+     * Метод telegramRun
+     *
+     *  Получает данные по api
+     *  Проверяет данные
+     *  Записывает данные если их нет в БД
+     *
+     * ======================================================
+     */
+    private function telegramRun()
+    {
+        $bot = new BotApi($this->token);
+
+        $updates = $bot->getUpdates();
+
+        $dictionary = R::getAll('SELECT * FROM dictionary');
+        $telegramList = R::getAll('SELECT * FROM telegram');
+
+        foreach ($updates as $key => $data) {
+            $errors = [];
+            $chatId = $updates[$key]->getMessage()->getChat()->getId();
+            $messageId = $updates[$key]->getMessage()->getMessageId();
+            $name = $updates[$key]->getMessage()->getChat()->getFirstName();
+            $text = $updates[$key]->getMessage()->getText();
+
+            foreach ($telegramList as $id => $array) {
+                if ($array['chat'] == $chatId && $array['message'] == $messageId) {
+                    $errors[] = 'error';
+                }
+            }
+
+            if (empty($errors)) {
+                $telegram = R::dispense('telegram');
+                $telegram->chat = $chatId;
+                $telegram->message = $messageId;
+                $telegram->answer = 0;
+                R::store($telegram);
+
+                $words = [];
+                if (!empty($dictionary)) {
+                    foreach ($dictionary as $id => $word) {
+                        if (strpos($text, $word['word']) !== false) {
+                            $words[] = $word['id'];
+                        }
+                    }
+                    $words = implode(':', $words);
+                }
+
+                if (empty($words)) {
+                    $question = R::dispense('unanswered');
+                } else {
+                    $question = R::dispense('blocked');
+                    $question->words = $words;
+                }
+                $question->name = $name;
+                $question->email = 'telegram:' . $chatId . ':' . $messageId;
+                $question->question = $text;
+                $question->category = 0;
+                $question->time = R::isoDateTime();
+                R::store($question);
+            }
+        }
+    }
+
+    /**
+     * Проверяет отвечен вопрос в чат или нет
+     *
+     * Если нет, то отвечает и помечает как отвеченные
+     * @param $chatId
+     * @param $messageId
+     * @param $text
+     */
+    private function getMessageTelegram($chatId, $messageId, $text)
+    {
+        $telegram = R::findOne('telegram', 'message = ?', [$messageId]);
+        $answer = $telegram->getProperties()['answer'];
+
+        if ($answer == 0) {
+            $telegram->getProperties();
+            $bot = new BotApi($this->token);
+            $bot->sendMessage($chatId, $text);
+
+            $telegram->answer = 1;
+            R::store($telegram);
         }
     }
 }

@@ -2,12 +2,14 @@
 
 namespace Engine\Core\Database;
 
-use \PDO;
 use RedBeanPHP\R;
 
 /**
+ * ======================================================
  * Class Connection
- * @package Engine\Core\Database
+ *  Запускает ORM RedBean
+ *  устанавливет настройки для запуск
+ * ======================================================
  */
 class Connection
 {
@@ -27,8 +29,8 @@ class Connection
         $config = require_once DATABASE_CONFIG;
         $dsn = 'mysql:host=' . $config['host'] . ';dbname=' . $config['dbName'] . ';charset=' . $config['charset'];
         R::setup($dsn, $config['userName'], $config['userPassword']);
-        R::fancyDebug(TRUE);
-        #R::freeze(true);
+        #R::fancyDebug(TRUE);
+        R::freeze(true);
         return $this;
     }
 }

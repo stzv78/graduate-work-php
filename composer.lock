@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "addabb3fd604a5d40becdc5acfe905d0",
-    "content-hash": "d7a80abfbd31a86e7a558bc67bb94778",
+    "hash": "a71e90d710abfec522b9d666f2be7191",
+    "content-hash": "27ecc61b0081f45ca830fede82e3794e",
     "packages": [
         {
             "name": "gabordemooij/redbean",
@@ -47,6 +47,61 @@
                 "orm"
             ],
             "time": "2017-03-07 22:26:54"
+        },
+        {
+            "name": "telegram-bot/api",
+            "version": "2.2.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TelegramBot/Api.git",
+                "reference": "71e9c7ea33a7a23ceadd2086243a209e46bcd6dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TelegramBot/Api/zipball/71e9c7ea33a7a23ceadd2086243a209e46bcd6dd",
+                "reference": "71e9c7ea33a7a23ceadd2086243a209e46bcd6dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "*",
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TelegramBot\\Api\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ilya Gusev",
+                    "email": "mail@igusev.ru",
+                    "homepage": "https://php-cat.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Wrapper for Telegram Bot API",
+            "homepage": "https://github.com/TelegramBot/Api",
+            "keywords": [
+                "bot",
+                "bot api",
+                "php",
+                "telegram"
+            ],
+            "time": "2017-04-14 20:52:43"
         },
         {
             "name": "twig/twig",

@@ -17,6 +17,7 @@
             <ul id="{{ category['id'] }}" class="cd-faq-group">
                 <li class="cd-faq-title"><h2>{{ category['title'] }}</h2></li>
                 {% for question in questions %}
+                    {% if question['hedden'] == 0 %}
                     {% if question['category'] == category['id'] %}
                         <li>
                             <a class="cd-faq-trigger" href="#0">{{ question['question'] }}</a>
@@ -24,6 +25,7 @@
                                 <p>{{ question['answers'] }}</p>
                             </div> <!-- cd-faq-content -->
                         </li>
+                    {% endif %}
                     {% endif %}
                 {% endfor %}
             </ul> <!-- cd-faq-group -->

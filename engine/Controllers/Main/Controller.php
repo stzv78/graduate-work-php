@@ -30,8 +30,8 @@ class Controller extends Controllers
         $this->view->render('question', $array);
     }
 
-    public function actionEcho()
+    public function action404()
     {
-        echo "Тут все работает!";
+        $this->view->render('404');
     }
 }

@@ -56,6 +56,29 @@ class Model extends Models
         $dictionary = self::getDictionary();
         $words = R::getAll('SELECT * FROM dictionary');
 
+        foreach ($categories as $key => $category) {
+            foreach ($questions as $table => $array) {
+                foreach ($array as $id => $question) {
+
+                    $amount = isset($categories[$key][$table]) ? $amount : 0;
+                    $categories[$key][$table] = $amount;
+
+                    if ($category['id'] === $question['category']) {
+                        $amount++;
+                        $categories[$key][$table] = $amount;
+
+                        $amHidden = isset($categories[$key]['hidden']) ? $amHidden : 0;
+                        $categories[$key]['hidden'] = $amHidden;
+
+                        if ($table == 'answer' && $question['hidden'] == 1) {
+                            $amHidden++;
+                            $categories[$key]['hidden'] = $amHidden;
+                        }
+                    }
+                }
+            }
+        }
+
         return [
             'header' => [
                 'title' => 'Панель администратора'
@@ -273,7 +296,7 @@ class Model extends Models
         if ($data['type'] !== 'answer') {
             self::trashQuestion($data['type'], $data['id']);
             $answer = R::dispense('answer');
-            $answer->hidden = 0;
+            $answer->hidden = $data['hidden'];
         } else {
             $answer = R::findOne($data['type'], 'id = ?', [$data['id']]);
             $answer->hidden = $data['hidden'];

@@ -1,13 +1,11 @@
-<header>
-    <h1>{{ header }}</h1>
-</header>
 <div class="container">
+    <h1>{{ header }}</h1>
     <p style="color: #dd4444">{{ error }}</p>
     <form method="POST">
         <p>
             <lable id="login">Логин:</lable>
             <br/>
-            <input id="login" type="text" name="loginLog" value="{{ data['loginLog'] }}" placeholder="guest">
+            <input id="login" type="text" name="loginLog" value="{{ data['loginLog'] }}">
         </p>
         <p>
             <lable id="password">Пароль:</lable>

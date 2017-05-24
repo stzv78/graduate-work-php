@@ -52,6 +52,19 @@
                 {% endfor %}
             </select>
         </p>
+        <p>
+            <lable id="category">Статус:</lable>
+            <br/>
+            <select name="hidden" id="category">
+                {% if question['hidden'] is not empty %}
+                    <option {% if question['hidden'] == 0 %} selected {% endif %} value="0">Открыт</option>
+                    <option {% if question['hidden'] == 1 %} selected {% endif %} value="1">Скрыт</option>
+                {% else %}
+                    <option selected value="0">Открыт</option>
+                    <option value="1">Скрыт</option>
+                {% endif %}
+            </select>
+        </p>
         <input type="submit" value="Сохранить" name="updateQuestion">
     </form>
 </div>

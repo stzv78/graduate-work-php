@@ -13,7 +13,7 @@
             </h4>
         </div>
         <div id="el1" class="panel-collapse collapse">
-            <div class="panel-body">
+            <div class="panel-body table-responsive">
                 <table class="table table-bordered table-hover">
                     <tr>
                         <th>ID</th>
@@ -66,7 +66,7 @@
             </h4>
         </div>
         <div id="el2" class="panel-collapse collapse">
-            <div class="panel-body">
+            <div class="panel-body table-responsive">
                 <table class="table table-bordered table-hover">
                     <tr>
                         <th>ID</th>
@@ -127,7 +127,7 @@
             </h4>
         </div>
         <div id="el3" class="panel-collapse collapse">
-            <div class="panel-body">
+            <div class="panel-body table-responsive">
                 <table class="table table-bordered table-hover">
                     <tr>
                         <th>ID</th>
@@ -195,12 +195,15 @@
                 <a data-toggle="collapse" data-parent="#collapse-group" href="#el4">Список категорий</a>
             </h4>
         </div>
-        <div id="el4" class="panel-collapse collapse">
-            <div class="panel-body">
-                <table class="table table-bordered table-hover">
+        <div id="el4" class="panel-collapse collapse ">
+            <div class="panel-body table-responsive">
+                <table class="table table-bordered table-hover table-condensed">
                     <tr>
                         <th>ID</th>
                         <th>Заголовок</th>
+                        <th>Без ответа</th>
+                        <th>Заблокированные</th>
+                        <th>С ответом<br>всего/скрытых</th>
                     </tr>
                     {% for category in categories %}
                         <tr>
@@ -221,6 +224,9 @@
                                     </button>
                                 </form>
                             </td>
+                            <td>{{ category['unanswered'] }}</td>
+                            <td>{{ category['blocked'] }}</td>
+                            <td>{{ category['answer'] }}/{{ category['hidden'] }}</td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -245,7 +251,7 @@
                 <a data-toggle="collapse" data-parent="#collapse-group" href="#el5">Список ключевых слов</a>
             </h4>
         </div>
-        <div id="el5" class="panel-collapse collapse">
+        <div id="el5" class="panel-collapse collapse table-responsive">
             <div class="container">
                 <p>*Слова или словосочетание разделяются запятой и пробелом
                     <br><span style="color: #a9c056">Пример: "Слово, очень плохое слово"</span>
@@ -268,7 +274,7 @@
             </h4>
         </div>
         <div id="el6" class="panel-collapse collapse">
-            <div class="panel-body">
+            <div class="panel-body table-responsive">
                 <table class="table table-bordered table-hover">
                     <tr>
                         <th>ID</th>

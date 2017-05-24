@@ -25,8 +25,8 @@ class Model extends Models
 
     private function index()
     {
-        var_dump($questions);
-        var_dump($categories);
+        $questions = R::getAll('SELECT * FROM answer');
+        $categories = R::getAll('SELECT * FROM categories');
         return [
             'header' => [
                 'title' => 'F.A.Q.',

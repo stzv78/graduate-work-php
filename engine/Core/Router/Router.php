@@ -4,7 +4,7 @@ namespace Engine\Core\Router;
 
 class Router
 {
-    static function start()
+    public function start()
     {
         $controllerName = 'Main';
         $actionName = 'Index';
@@ -39,10 +39,9 @@ class Router
 
     }
 
-    static function ErrorPage404()
+    private function ErrorPage404()
     {
         header('HTTP/1.1 404 Not Found');
-        header("Status: 404 Not Found");
         redirect('?/main/404');
     }
 }

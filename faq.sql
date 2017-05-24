@@ -17,6 +17,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `login`, `password`) VALUES
 (1,	'admin',	'$2y$10$VpnH/JraPIq0Ne7LqXRUDuDXaBv/U9ZEgKuAuwG4NVHGYEyAqglOy')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `login` = VALUES(`login`), `password` = VALUES(`password`);
 
 DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer` (
@@ -54,6 +55,7 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `title`) VALUES
 (1,	'Общие вопросы')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `title` = VALUES(`title`);
 
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (

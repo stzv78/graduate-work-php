@@ -4,7 +4,7 @@
 
 #### ***Ссылки***
  * [Рабочий вариант](http://university.netology.ru/user_data/kotyukov/public/)
- * [Документация](#)
+ * [Документация](https://docs.google.com/document/d/1gTYMyydpTCT1yFtbhDMr9WHZNE7R-U2D6vuReLN9xJY/edit?usp=sharing)
  * [Телеграм-бот](http://t.me/phpGraduateWorkBot)
 
 ### Установка

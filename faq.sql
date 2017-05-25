@@ -7,11 +7,10 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
-DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `login` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `login` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -19,37 +18,34 @@ INSERT INTO `admin` (`id`, `login`, `password`) VALUES
 (1,	'admin',	'$2y$10$VpnH/JraPIq0Ne7LqXRUDuDXaBv/U9ZEgKuAuwG4NVHGYEyAqglOy')
 ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `login` = VALUES(`login`), `password` = VALUES(`password`);
 
-DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `question` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `answers` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `category` int(11) unsigned DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `question` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answers` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category` int(11) unsigned NOT NULL,
   `time` datetime DEFAULT NULL,
-  `hidden` int(11) unsigned DEFAULT '0',
+  `hidden` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `blocked`;
 CREATE TABLE `blocked` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `words` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `question` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `category` int(11) unsigned DEFAULT NULL,
+  `words` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `question` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category` int(11) unsigned NOT NULL,
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -57,34 +53,31 @@ INSERT INTO `categories` (`id`, `title`) VALUES
 (1,	'Общие вопросы')
 ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `title` = VALUES(`title`);
 
-DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `word` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `word` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `telegram`;
 CREATE TABLE `telegram` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `chat` int(11) unsigned DEFAULT NULL,
-  `message` int(11) unsigned DEFAULT NULL,
-  `answer` int(11) unsigned DEFAULT NULL,
+  `chat` int(11) unsigned NOT NULL,
+  `message` int(11) unsigned NOT NULL,
+  `answer` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `unanswered`;
 CREATE TABLE `unanswered` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `question` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `category` int(11) unsigned DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `question` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category` int(11) unsigned NOT NULL,
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2017-05-24 18:24:31
+-- 2017-05-25 09:21:54

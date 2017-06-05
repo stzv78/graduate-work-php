@@ -122,7 +122,7 @@ trait DataProcessing
 
         self::actionOpenQuestion($question, $data);       // DataProcessing
 
-        self::createAnswer($question);                    // DataProcessing
+        self::createAnswer($question);                    // Query
     }
 
     private function actionDeleteQuestion($question, $data)

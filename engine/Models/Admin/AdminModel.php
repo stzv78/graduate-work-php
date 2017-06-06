@@ -19,7 +19,6 @@ class AdminModel extends Model
     }
 
     /**
-     * ======================================================
      * Метод admin
      *
      *  - Работает с администраторами
@@ -31,7 +30,6 @@ class AdminModel extends Model
      *  - Логирует
      *
      * @param $data
-     * ======================================================
      */
     protected function admin($data)
     {

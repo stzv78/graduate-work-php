@@ -24,13 +24,20 @@ class MainController extends Controller
     use Errors;
 
     /**
-     *  Подключает модель
+     *  Подключает модели
      */
     protected function setModel()
     {
         $this->model['main'] = new Main();
     }
 
+    /**
+     * Метод index
+     *
+     *  Собирает данные для вывода:
+     *  - Вопросы answer вопросы с ответом
+     *  - Список категорий
+     */
     public function actionIndex()
     {
         $questions = $this->model['main']->getQuestion();
@@ -51,6 +58,12 @@ class MainController extends Controller
         $this->view->render('index', $array);
     }
 
+    /**
+     * Метод question
+     *
+     *  - Обрабатывает данные
+     *  - Отправляет в модель
+     */
     public function actionQuestion()
     {
         $errors = [];
@@ -83,6 +96,11 @@ class MainController extends Controller
         $this->view->render('question', $array);
     }
 
+    /**
+     * Метод 404
+     *
+     * - Выводить страницу с 404 ошибкой
+     */
     public function action404()
     {
         $this->view->render('404');

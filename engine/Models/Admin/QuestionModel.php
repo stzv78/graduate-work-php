@@ -24,13 +24,11 @@ class QuestionModel extends Model
     }
 
     /**
-     * ======================================================
      * Метод updateQuestion
      * Отправляет записывает вопрос в БД и логирует
      * Логирует дествие
      *
      * @param $data
-     * ======================================================
      */
     protected function updateQuestion($data)
     {
@@ -116,13 +114,11 @@ class QuestionModel extends Model
     }
 
     /**
-     * ======================================================
      * Метод dictionary
      *
      *  - Работает со словарем ключевых слов
      *
      * @param $data
-     * ======================================================
      */
     protected function dictionary($data)
     {
@@ -132,6 +128,7 @@ class QuestionModel extends Model
 
     /**
      * Обновляет словарь
+     * @param $data
      */
     private function refreshDictionary($data)
     {

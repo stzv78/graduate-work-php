@@ -24,7 +24,6 @@ class CategoryModel extends Model
     }
 
     /**
-     * ======================================================
      * Метод category
      *
      *  - Перезаписывает категорию
@@ -32,7 +31,6 @@ class CategoryModel extends Model
      *  - Добавляет новую категорию
      *
      * @param $data
-     * ======================================================
      */
     protected function category($data)
     {
@@ -69,7 +67,7 @@ class CategoryModel extends Model
 
     /**
      * Возращает массив с ключевыми словами
-     * @return array
+     * @param $data
      */
     private function entryCategory($data)
     {
@@ -86,6 +84,7 @@ class CategoryModel extends Model
 
     /**
      * Удаляет категорию и все вопросы в ней
+     * @param $data
      */
     private function trashCategory($data)
     {

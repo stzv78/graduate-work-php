@@ -29,14 +29,11 @@ Class TelegramModel extends Model
     }
 
     /**
-     * ======================================================
      * Метод telegramRun
      *
      *  Получает данные по api
      *  Проверяет данные
      *  Записывает данные если их нет в БД
-     *
-     * ======================================================
      */
     public function telegramRun()
     {
@@ -74,7 +71,7 @@ Class TelegramModel extends Model
      */
     private function entryTelegramMessages($chatId, $messageId, $text, $name)
     {
-        $dictionary = self::getDictionary(); // Query
+        $dictionary = self::getDictionary();
 
         self::entryTelegram($chatId, $messageId);
 

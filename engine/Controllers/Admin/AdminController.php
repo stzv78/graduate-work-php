@@ -43,8 +43,7 @@ class AdminController extends Controller
     }
 
     /**
-     * ======================================================
-     * Index-ный метод
+     * Метод index
      *
      *  Запускает телеграм-бота
      *
@@ -57,7 +56,6 @@ class AdminController extends Controller
      *  - Список категорий
      *  - Список администраторов
      *  - Список ключевых слов
-     * ======================================================
      */
     public function actionIndex()
     {
@@ -86,6 +84,12 @@ class AdminController extends Controller
         $this->view->render('admin', $array);
     }
 
+    /**
+     * Метод login
+     *
+     *  - Проверяет валидность данных для авторизации
+     *  - Записывает в сессию логин и id администратора
+     */
     public function actionLogin()
     {
         if (isset($_SESSION['adminId'])) {
@@ -119,7 +123,14 @@ class AdminController extends Controller
         $this->view->render('login', $array);
     }
 
-    public function actionEdit()
+    /**
+     * Метод edit
+     *
+     *  - Работает с вопросом. Данные получает через $_POST.
+     *  - Проверяет данные для работы с вопрос и делает запрос в базу иначе переадресовывает.
+     *  - Если были обновлены данные администратором то проверяет корекнтость данных и отправляет их в модель.
+     */
+        public function actionEdit()
     {
         $data = $_POST;
         $errors = [];
@@ -167,6 +178,12 @@ class AdminController extends Controller
         $this->view->render('edit', $array);
     }
 
+    /**
+     * Метод category
+     *
+     *  - Проверяет данные
+     *  - Отправляет в модель
+     */
     public function actionCategory() {
         $data = $_POST;
 
@@ -177,6 +194,12 @@ class AdminController extends Controller
         $this->model['category']->methodCall('category', $data);
     }
 
+    /**
+     * Метод dictionary
+     *
+     *  - Проверяет данные
+     *  - Отпрвляет в модель
+     */
     public function actionDictionary() {
         $data = $_POST;
 
@@ -187,6 +210,12 @@ class AdminController extends Controller
         $this->model['question']->methodCall('dictionary', $data);
     }
 
+    /**
+     * Метод admin
+     *
+     *  - Проверяет данные
+     *  - Отпрвляет в модель
+     */
     public function actionAdmin() {
         $data = $_POST;
 

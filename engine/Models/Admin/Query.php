@@ -12,15 +12,15 @@ trait Query
      */
     private function getQuestions()
     {
-        $questions['unanswered'] = R::getAll('SELECT * FROM unanswered');
+        $questions['unanswered'] = R::getAll('SELECT id,name,email,question,category,time FROM unanswered');
         foreach ($questions['unanswered'] as $data) {
             $data['question'] = htmlspecialchars($data['question'], ENT_QUOTES);
         }
-        $questions['blocked'] = R::getAll('SELECT * FROM blocked');
+        $questions['blocked'] = R::getAll('SELECT id,words,name,email,question,category,time FROM blocked');
         foreach ($questions['blocked'] as $data) {
             $data['question'] = htmlspecialchars($data['question'], ENT_QUOTES);
         }
-        $questions['answer'] = R::getAll('SELECT * FROM answer');
+        $questions['answer'] = R::getAll('SELECT id,name,email,question,answers,category,time,hidden FROM answer');
         return $questions;
     }
 
@@ -30,7 +30,7 @@ trait Query
      */
     private function getCategories()
     {
-        $categories = R::getAll('SELECT * FROM categories');
+        $categories = R::getAll('SELECT id,title FROM categories');
         return $categories;
     }
 
@@ -53,7 +53,7 @@ trait Query
      */
     private function getAdmins()
     {
-        $admin = R::getAll('SELECT * FROM admin');
+        $admin = R::getAll('SELECT id,login,password FROM admin');
         return $admin;
     }
 
@@ -63,7 +63,7 @@ trait Query
      */
     private function getDictionary()
     {
-        $dictionary = R::getAll('SELECT * FROM dictionary');
+        $dictionary = R::getAll('SELECT id,title FROM dictionary');
 
         return $dictionary;
     }
@@ -76,7 +76,15 @@ trait Query
      */
     private function getQuestion($table, $id)
     {
-        $question = R::getAll('SELECT * FROM ' . $table . ' WHERE id LIKE :id', [
+        if ($table === 'answer') {
+            $сolumns = 'id,name,email,question,answers,category,time,hidden';
+        } elseif ($table === 'blocked') {
+            $сolumns = 'id,words,name,email,question,category,time';
+        } else {
+            $сolumns = 'id,name,email,question,category,time';
+        }
+
+        $question = R::getAll('SELECT ' . $сolumns . ' FROM ' . $table . ' WHERE id LIKE :id', [
             'id' => $id
         ]);
 

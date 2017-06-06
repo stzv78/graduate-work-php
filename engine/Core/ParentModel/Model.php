@@ -17,7 +17,7 @@ abstract class Model
      * @param $method
      * @return mixed
      */
-    abstract public function getData($method);
+    abstract public function getData($method, $data);
 
     /**
      * Index-ный метод модели для сбора дынных и их возврата для рендеринга

@@ -17,7 +17,7 @@ use RedBeanPHP\R;
  */
 class MainModel extends Model
 {
-    public function getData($method)
+    public function getData($method, $data = '')
     {
         $array = self::$method();
         return $array;
@@ -38,8 +38,8 @@ class MainModel extends Model
      */
     protected function index()
     {
-        $questions = R::getAll('SELECT * FROM answer');
-        $categories = R::getAll('SELECT * FROM categories');
+        $questions = R::getAll('SELECT id,name,email,question,answers,category,time,hidden FROM answer');
+        $categories = R::getAll('SELECT id,title FROM categories');
         return [
             'header' => [
                 'title' => 'F.A.Q.',
@@ -93,7 +93,7 @@ class MainModel extends Model
             }
         }
 
-        $categories = R::getAll('SELECT * FROM categories');
+        $categories = R::getAll('SELECT id,title FROM categories');
 
         return [
             'header' => [
@@ -103,8 +103,7 @@ class MainModel extends Model
                 'header' => 'Задать вопрос',
                 'error' => @array_shift($errors),
                 'data' => $data,
-                'categories' => $categories,
-                'ok' => @$ok //$ok не трогать, твиг сломается
+                'categories' => $categories
             ]
         ];
     }
@@ -114,7 +113,7 @@ class MainModel extends Model
      */
     private function questionRecord($data)
     {
-        $dictionary = R::getAll('SELECT * FROM dictionary');
+        $dictionary = R::getAll('SELECT id,word FROM dictionary');
 
         $words = [];
         if (!empty($dictionary)) {

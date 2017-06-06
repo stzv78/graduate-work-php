@@ -42,7 +42,7 @@ class AdminModel extends Model
      * @param $method
      * @return mixed
      */
-    public function getData($method)
+    public function getData($method, $data = '')
     {
         $array = self::$method();
         return $array;

@@ -13,6 +13,7 @@ use Engine\Models\Admin\AdminModel as Admin;
  */
 class AdminController extends Controller
 {
+    use Errors;
 
     /**
      *  Подключает модель

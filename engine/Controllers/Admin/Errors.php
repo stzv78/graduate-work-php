@@ -1,6 +1,6 @@
 <?php
 
-namespace Engine\Models\Admin;
+namespace Engine\Controllers\Admin;
 
 
 trait Errors
@@ -10,8 +10,9 @@ trait Errors
      * @param $data
      * @return array
      */
-    private function checkDataQuestion($data)
+    private function checkDataQuestion()
     {
+        $data = $_POST;
         $errors = [];
 
         if (trim($data['name']) === '') {
@@ -44,7 +45,9 @@ trait Errors
      */
     private function checkDataLogin($data, $admin)
     {
+        $data = $_POST;
         $errors = [];
+
         if (trim($data['loginLog']) === '') {
             $errors[] = 'Введите логин';
         }

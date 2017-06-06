@@ -1,6 +1,6 @@
 <?php
 
-namespace Engine\Controllers;
+namespace Engine\Core\ParentController;
 
 use Engine\Core\View\View;
 
@@ -10,7 +10,7 @@ use Engine\Core\View\View;
  *  подключает класс View для рендеренга страниц
  * ======================================================
  */
-abstract class Controllers
+abstract class Controller
 {
     protected $model;
     protected $view;

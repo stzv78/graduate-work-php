@@ -2,8 +2,8 @@
 
 namespace Engine\Controllers\Admin;
 
-use Engine\Controllers\Controllers;
-use Engine\Core\Models\Admin\Model as Admin;
+use Engine\Core\ParentController\Controller;
+use Engine\Models\Admin\AdminModel as Admin;
 
 /**
  * ======================================================
@@ -11,7 +11,7 @@ use Engine\Core\Models\Admin\Model as Admin;
  *  Модель Admin
  * ======================================================
  */
-class Controller extends Controllers
+class AdminController extends Controller
 {
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Engine\Core\Models;
+namespace Engine\Core\ParentModel;
 
 /**
  * ======================================================
@@ -9,7 +9,7 @@ namespace Engine\Core\Models;
  *
  * ======================================================
  */
-abstract class Models
+abstract class Model
 {
 
     /**

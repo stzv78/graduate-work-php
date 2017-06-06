@@ -12,11 +12,6 @@ function redirect($uri = '') {
     exit;
 }
 
-function getPathController($controllerName) {
-    $path = ROOT_DIR . "engine" . DS . "Controllers" . DS . $controllerName . DS . "Controller.php";
-    return $path;
-}
-
 function logAdmin($action) {
     $file = ROOT_DIR . 'log/log.txt';
     $time = date("Y-m-d H:i:s");

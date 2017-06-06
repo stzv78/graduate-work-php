@@ -33,12 +33,13 @@ class Router
 
         $actionName = 'action' . $actionName;
 
-        $pathController = getPathController($controllerName);
+        $pathController = self::getPathController($controllerName);
+
         if (!file_exists($pathController)) {
             self::ErrorPage404();
         }
 
-        $controllerName = 'Engine\Controllers\\' . $controllerName . '\\Controller';
+        $controllerName = 'Engine\Controllers\\' . $controllerName . '\\' . $controllerName . 'Controller';
         $controller = new $controllerName();
         $action = $actionName;
 
@@ -48,6 +49,15 @@ class Router
             self::ErrorPage404();
         }
 
+    }
+
+    private function getPathController($controllerName)
+    {
+        $pathToControllers = ROOT_DIR . "engine" . DS . "Controllers" . DS;
+        $pathToController = $controllerName . DS . $controllerName . "Controller.php";
+        $path =  $pathToControllers . $pathToController;
+
+        return $path;
     }
 
     private function ErrorPage404()

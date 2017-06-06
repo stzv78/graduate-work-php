@@ -1,8 +1,8 @@
 <?php
 
-namespace Engine\Core\Models\Admin;
+namespace Engine\Models\Admin;
 
-use Engine\Core\Models\Models;
+use Engine\Core\ParentModel\Model;
 
 /**
  * ======================================================
@@ -14,7 +14,7 @@ use Engine\Core\Models\Models;
  *
  * ======================================================
  */
-class Model extends Models
+class AdminModel extends Model
 {
     /**
      * Трейт с методами проверок на ошибки

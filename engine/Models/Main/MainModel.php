@@ -1,8 +1,8 @@
 <?php
 
-namespace Engine\Core\Models\Main;
+namespace Engine\Models\Main;
 
-use Engine\Core\Models\Models;
+use Engine\Core\ParentModel\Model;
 use RedBeanPHP\R;
 
 /**
@@ -15,7 +15,7 @@ use RedBeanPHP\R;
  *
  * ======================================================
  */
-class Model extends Models
+class MainModel extends Model
 {
     public function getData($method)
     {

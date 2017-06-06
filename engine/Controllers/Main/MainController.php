@@ -2,8 +2,8 @@
 
 namespace Engine\Controllers\Main;
 
-use Engine\Controllers\Controllers;
-use Engine\Core\Models\Main\Model as Main;
+use Engine\Core\ParentController\Controller;
+use Engine\Models\Main\MainModel as Main;
 
 /**
  * ======================================================
@@ -11,7 +11,7 @@ use Engine\Core\Models\Main\Model as Main;
  *  Модель Main
  * ======================================================
  */
-class Controller extends Controllers
+class MainController extends Controller
 {
     /**
      *  Подключает модель

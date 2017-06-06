@@ -1,6 +1,6 @@
 <?php
 
-namespace Engine\Core\Models\Admin;
+namespace Engine\Models\Admin;
 
 
 trait Errors

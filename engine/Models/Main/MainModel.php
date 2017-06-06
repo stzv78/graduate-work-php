@@ -5,113 +5,38 @@ namespace Engine\Models\Main;
 use Engine\Core\ParentModel\Model;
 use RedBeanPHP\R;
 
-/**
- * ======================================================
- * Class Model
- *  Контроллер Engine\Controllers\Main\Controller
- *
- *  Методы protected вызываются контроллером
- *  Методы private вызываются моделью
- *
- * ======================================================
- */
 class MainModel extends Model
 {
-    public function getData($method, $data = '')
+    public function methodCall($method, $data = [])
     {
-        $array = self::$method();
+        if (empty($data)) {
+            $array = self::$method();
+        } else {
+            $array = self::$method($data);
+        }
+
         return $array;
     }
 
-    /**
-     * ======================================================
-     * Index-ный метод
-     *
-     *  Собирает данные для вывода:
-     *
-     *  - Вопросы таблицы
-     *    - answer вопросы с ответом*
-     *  - Список категорий
-     *
-     *  Возвращает массив с данными
-     * ======================================================
-     */
-    protected function index()
+    public function getQuestion()
     {
         $questions = R::getAll('SELECT id,name,email,question,answers,category,time,hidden FROM answer');
-        $categories = R::getAll('SELECT id,title FROM categories');
-        return [
-            'header' => [
-                'title' => 'F.A.Q.',
-                'theme' => 'index'
-            ],
-            'data' => [
-                'header' => 'F.A.Q.',
-                'categories' => $categories,
-                'questions' => $questions
-            ]
-        ];
+
+        return $questions;
     }
 
-    /**
-     * ======================================================
-     * Метод question
-     *
-     *  Получает данные через $_POST
-     *  Обрабатывает данные
-     *  Запускает запись вопроса в БД
-     *
-     *  Возвращает массив с данными
-     * ======================================================
-     */
-    protected function question()
+    public function getCategories()
     {
-        $errors = [];
-        $data = $_POST;
-
-        if (isset($data['goQuestion'])) {
-
-            if ($data['nameUser'] === '') {
-                $errors[] = 'Введите имя*';
-            }
-            if ($data['emailUser'] === '') {
-                $errors[] = 'Введите E-mail*';
-            }
-            if ($data['categoryUser'] === '0') {
-                $errors[] = 'Выберите категорию*';
-            }
-            if ($data['questionUser'] === '') {
-                $errors[] = 'Введите вопрос*';
-            }
-            if (mb_strlen($data['questionUser']) >= 250) {
-                $errors[] = 'В тексте должно быть меньше 250 сиволов*';
-            }
-
-            if (empty($errors)) {
-                self::questionRecord($data);
-                $data['success'] = 'Вопрос отправлен!';
-            }
-        }
-
         $categories = R::getAll('SELECT id,title FROM categories');
 
-        return [
-            'header' => [
-                'title' => 'F.A.Q.'
-            ],
-            'data' => [
-                'header' => 'Задать вопрос',
-                'error' => @array_shift($errors),
-                'data' => $data,
-                'categories' => $categories
-            ]
-        ];
+        return $categories;
     }
 
     /**
      * Записывает вопрос в БД
+     * @param $data
      */
-    private function questionRecord($data)
+    protected function questionRecord($data)
     {
         $dictionary = R::getAll('SELECT id,word FROM dictionary');
 

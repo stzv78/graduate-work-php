@@ -12,7 +12,7 @@ use Engine\Core\View\View;
  */
 abstract class Controller
 {
-    protected $model;
+    protected $model = [];
     protected $view;
 
     /**

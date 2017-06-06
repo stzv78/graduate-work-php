@@ -26,9 +26,11 @@ class Router
 
         if (!empty($routes[1])) {
             $controllerName = ucfirst($routes[1]);
+            define('CONTROLLER', $routes[1]);
         }
         if (!empty($routes[2])) {
             $actionName = ucfirst($routes[2]);
+            define('ACTION', $routes[2]);
         }
 
         $actionName = 'action' . $actionName;

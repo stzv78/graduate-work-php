@@ -11,17 +11,12 @@ namespace Engine\Core\ParentModel;
  */
 abstract class Model
 {
-
     /**
-     * Запускает методы по запросу контроллера
+     * Запускает метод по запросу контроллера
      * @param $method
+     * @param $data
      * @return mixed
      */
-    abstract public function getData($method, $data);
+    abstract public function methodCall($method, $data = []);
 
-    /**
-     * Index-ный метод модели для сбора дынных и их возврата для рендеринга
-     * @return mixed
-     */
-    abstract protected function index();
 }

@@ -38,7 +38,7 @@ class AdminController extends Controller
     protected function setModel()
     {
         self::sessionCheck();
-        $this->model['admin'] =    new Admin();
+        $this->model['admin']    = new Admin();
         $this->model['question'] = new Question();
         $this->model['category'] = new Category();
         $this->model['telegram'] = new Telegram();

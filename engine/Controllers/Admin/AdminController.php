@@ -102,10 +102,12 @@ class AdminController extends Controller
         $data = $_POST;
 
         if (isset($data['goLogin'])) {
+
             $admin = $this->model['admin']->getAdmin($data['loginLog']);
             $errors = self::checkDataLogin($data, $admin);
 
             if (empty($errors)) {
+
                 $_SESSION['adminLogin'] = $admin['login'];
                 $_SESSION['adminId'] = $admin['id'];
                 Response::redirect('?/admin');
@@ -129,25 +131,31 @@ class AdminController extends Controller
      * Метод edit
      *
      *  - Работает с вопросом. Данные получает через $_POST.
-     *  - Проверяет данные для работы с вопрос и делает запрос в базу иначе переадресовывает.
+     *  - Проверяет данные для работы с вопрос и отправляет в модель.
      *  - Если были обновлены данные администратором то проверяет корекнтость данных и отправляет их в модель.
      */
-        public function actionEdit()
+    public function actionEdit()
     {
         $data = $_POST;
         $errors = [];
 
         if (isset($data['type'])) {
+
             $question = $this->model['question']->getQuestion($data['type'], $data['id']);
+
         } else {
+
             Response::redirect('?/admin');
         }
 
         if (isset($data['updateQuestion'])) {
+
             $errors = self::checkDataQuestion($data);
+
             if (empty($errors)) {
 
                 if (strpos($data['email'], 'telegram') !== false) {
+
                     $telegram = explode(':', $data['email']);
                     $this->model['telegram']->messageTelegram($telegram[1], $telegram[2], trim($data['answers']));
                 }
@@ -159,6 +167,7 @@ class AdminController extends Controller
         $question = self::questionProcessing($question, $data);
 
         if (isset($data['action'])) {
+
             $data['objectQuestion'] = $question;
             $this->model['question']->methodCall('actionQuestion', $data);
         }
@@ -173,7 +182,7 @@ class AdminController extends Controller
                 'header'     => 'Ответить на вопрос',
                 'question'   => $question,
                 'categories' => $categories,
-                'error'      => @array_shift($errors)
+                'error'      => array_shift($errors)
             ]
         ];
 
@@ -190,6 +199,7 @@ class AdminController extends Controller
         $data = $_POST;
 
         if ($data['title'] === '') {
+
             Response::redirect('?/admin');
         }
 
@@ -206,6 +216,7 @@ class AdminController extends Controller
         $data = $_POST;
 
         if (!isset($data['dictionary'])) {
+
             Response::redirect('?/admin');
         }
 
@@ -222,6 +233,7 @@ class AdminController extends Controller
         $data = $_POST;
 
         if ($data['action'] === 'add') {
+
             self::checkAdminData($data);
         }
 

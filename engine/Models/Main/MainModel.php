@@ -41,9 +41,13 @@ class MainModel extends Model
         $dictionary = R::getAll('SELECT id,word FROM dictionary');
 
         $words = [];
+
         if (!empty($dictionary)) {
+
             foreach ($dictionary as $id => $word) {
+
                 if (strpos($data['questionUser'], $word['word']) !== false) {
+
                     $words[] = $word['id'];
                 }
             }
@@ -52,8 +56,11 @@ class MainModel extends Model
         $words = implode(':', $words);
 
         if (empty($words)) {
+
             $question = R::dispense('unanswered');
+
         } else {
+
             $question = R::dispense('blocked');
             $question->words = $words;
         }

@@ -44,19 +44,23 @@ Class TelegramModel extends Model
         $telegramList = self::getTelegramList();
 
         foreach ($updates as $key => $data) {
-            $errors = [];
-            $chatId = $updates[$key]->getMessage()->getChat()->getId();
+
+            $errors    = [];
+            $chatId    = $updates[$key]->getMessage()->getChat()->getId();
             $messageId = $updates[$key]->getMessage()->getMessageId();
-            $name = $updates[$key]->getMessage()->getChat()->getFirstName();
-            $text = $updates[$key]->getMessage()->getText();
+            $name      = $updates[$key]->getMessage()->getChat()->getFirstName();
+            $text      = $updates[$key]->getMessage()->getText();
 
             foreach ($telegramList as $id => $array) {
+
                 if ($array['chat'] == $chatId && $array['message'] == $messageId) {
+
                     $errors[] = 'error';
                 }
             }
 
             if (empty($errors)) {
+
                 self::entryTelegramMessages($chatId, $messageId, $text, $name);
             }
         }
@@ -76,12 +80,17 @@ Class TelegramModel extends Model
         self::entryTelegram($chatId, $messageId);
 
         $words = [];
+
         if (!empty($dictionary)) {
+
             foreach ($dictionary as $id => $word) {
+
                 if (strpos($text, $word['word']) !== false) {
+
                     $words[] = $word['id'];
                 }
             }
+
             $words = implode(':', $words);
         }
 
@@ -101,6 +110,7 @@ Class TelegramModel extends Model
         $answer = self::getAnswer($messageId);
 
         if ($answer == 0) {
+
             self::sendMessageTelegram($chatId, $text);
             self::markMessageTelegram($messageId);
         }
@@ -149,7 +159,9 @@ Class TelegramModel extends Model
     private function markMessageTelegram($messageId)
     {
         $telegram = R::findOne('telegram', 'message = ?', [$messageId]);
+
         $telegram->answer = 1;
+
         R::store($telegram);
     }
 

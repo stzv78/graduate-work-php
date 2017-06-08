@@ -74,6 +74,7 @@ class MainController extends Controller
             $errors = self::checkDataQuestion($data);
 
             if (empty($errors)) {
+
                 $this->model['main']->methodCall('questionRecord', $data);
                 $data['success'] = 'Вопрос отправлен!';
             }
@@ -87,7 +88,7 @@ class MainController extends Controller
             ],
             'data'   => [
                 'header'     => 'Задать вопрос',
-                'error'      => @array_shift($errors),
+                'error'      => array_shift($errors),
                 'data'       => $data,
                 'categories' => $categories
             ]

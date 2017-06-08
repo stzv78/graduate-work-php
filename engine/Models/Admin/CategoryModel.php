@@ -37,14 +37,17 @@ class CategoryModel extends Model
     protected function category($data)
     {
         if ($data['action'] === 'delete') {
+
             self::actionDeleteCategory($data);
         }
 
         if ($data['action'] === 'save') {
+
             self::actionSaveCategory($data);
         }
 
         if ($data['action'] === 'add') {
+
             self::actionAddCategory($data);
         }
     }
@@ -52,18 +55,21 @@ class CategoryModel extends Model
     private function actionDeleteCategory($data)
     {
         Logging::logAdmin('удалил категорию: ' . trim($data['title']));
+
         self::trashCategory($data);
     }
 
     private function actionSaveCategory($data)
     {
         Logging::logAdmin('обновил (id:' . $data['id'] . ') категорию: ' . trim($data['title']));
+
         self::entryCategory($data);
     }
 
     private function actionAddCategory($data)
     {
         Logging::logAdmin('добавил категорию: ' . trim($data['title']));
+
         self::entryCategory($data);
     }
 
@@ -74,13 +80,18 @@ class CategoryModel extends Model
     private function entryCategory($data)
     {
         if ($data['action'] === 'save') {
+
             $categories = R::findOne('categories', 'id = ?', [$data['id']]);
+
         } else {
+
             $categories = R::dispense('categories');
         }
 
         $categories->title = trim($data['title']);
+
         R::store($categories);
+
         Response::redirect('?/admin');
     }
 
@@ -91,14 +102,20 @@ class CategoryModel extends Model
     private function trashCategory($data)
     {
         foreach (self::getQuestions() as $table => $questions) {
+
             foreach ($questions as $key => $question) {
+
                 if ($question['category'] === $data['id']) {
+
                     self::trashQuestion($table, $question['id']);
                 }
             }
         }
+
         $category = R::load('categories', $data['id']);
+
         R::trash($category);
+
         Response::redirect('?/admin');
     }
 }

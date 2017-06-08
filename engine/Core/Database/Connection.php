@@ -27,10 +27,13 @@ class Connection
     private function connect()
     {
         $config = require_once DATABASE_CONFIG;
+
         $dsn = 'mysql:host=' . $config['host'] . ';dbname=' . $config['dbName'] . ';charset=' . $config['charset'];
         R::setup($dsn, $config['userName'], $config['userPassword']);
+
         #R::fancyDebug(TRUE);
         R::freeze(true);
+
         return $this;
     }
 }

@@ -36,14 +36,17 @@ class AdminModel extends Model
     protected function admin($data)
     {
         if ($data['action'] === 'delete') {
+
             self::trashAdmin($data);
         }
 
         if ($data['action'] === 'save') {
+
             self::actionSaveAdmin($data);
         }
 
         if ($data['action'] === 'add') {
+
             self::actionAddAdmin($data);
         }
     }
@@ -66,8 +69,11 @@ class AdminModel extends Model
     private function trashAdmin($data)
     {
         $admin = R::load('admin', $data['id']);
+
         Logging::logAdmin('удалил администратора: ' . $admin['login']);
+
         R::trash($admin);
+
         Response::redirect('?/admin');
     }
 
@@ -77,15 +83,22 @@ class AdminModel extends Model
     private function refreshAdmin($data)
     {
         $admin = R::findOne('admin', 'id = ?', [$data['id']]);
+
         if (trim($data['login']) !== '') {
+
             $admin->login = trim($data['login']);
         }
+
         if (trim($data['password']) !== '') {
+
             $admin->password = password_hash(trim($data['password']), PASSWORD_DEFAULT);
         }
+
         if ($_SESSION['adminId'] === $data['id']) {
+
             session_destroy();
         }
+
         R::store($admin);
 
         Response::redirect('?/admin');
@@ -97,9 +110,12 @@ class AdminModel extends Model
     private function entryAdmin($data)
     {
         $admin = R::dispense('admin');
-        $admin->login = $data['login'];
+
+        $admin->login    = $data['login'];
         $admin->password = password_hash(trim($data['password']), PASSWORD_DEFAULT);
+
         R::store($admin);
+
         Response::redirect('?/admin');
     }
 
@@ -122,6 +138,7 @@ class AdminModel extends Model
     public function getAdmins()
     {
         $admin = R::getAll('SELECT id,login,password FROM admin');
+
         return $admin;
     }
 }

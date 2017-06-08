@@ -13,6 +13,7 @@ trait Query
     public function getCategories()
     {
         $categories = R::getAll('SELECT id,title FROM categories');
+
         return $categories;
     }
 
@@ -26,6 +27,7 @@ trait Query
         $category = R::getAll('SELECT title FROM categories WHERE id LIKE :id', [
             'id' => $id
         ]);
+
         return $category[0]['title'];
     }
 
@@ -49,10 +51,15 @@ trait Query
     public function getQuestion($table, $id)
     {
         if ($table === 'answer') {
+
             $сolumns = 'id,name,email,question,answers,category,time,hidden';
+
         } elseif ($table === 'blocked') {
+
             $сolumns = 'id,words,name,email,question,category,time';
+
         } else {
+
             $сolumns = 'id,name,email,question,category,time';
         }
 
@@ -70,14 +77,21 @@ trait Query
     public function getQuestions()
     {
         $questions['unanswered'] = R::getAll('SELECT id,name,email,question,category,time FROM unanswered');
+
         foreach ($questions['unanswered'] as $data) {
+
             $data['question'] = htmlspecialchars($data['question'], ENT_QUOTES);
         }
+
         $questions['blocked'] = R::getAll('SELECT id,words,name,email,question,category,time FROM blocked');
+
         foreach ($questions['blocked'] as $data) {
+
             $data['question'] = htmlspecialchars($data['question'], ENT_QUOTES);
         }
+
         $questions['answer'] = R::getAll('SELECT id,name,email,question,answers,category,time,hidden FROM answer');
+
         return $questions;
     }
 
@@ -89,6 +103,7 @@ trait Query
     private function trashQuestion($table, $id)
     {
         $question = R::load($table, $id);
+
         R::trash($question);
     }
 }

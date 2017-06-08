@@ -12,13 +12,16 @@ trait DataProcessing
     private function sessionCheck()
     {
         if (!isset($_SESSION['adminId'])) {
+
             $action = '';
 
             if (defined('ACTION')) {
+
                 $action = ACTION;
             }
 
             if ($action !== 'login') {
+
                 Response::redirect('?/admin/login');
             }
         }
@@ -31,10 +34,14 @@ trait DataProcessing
     {
         $dictionary = $this->model['question']->getDictionary();
         $words = [];
+
         foreach ($dictionary as $key => $word) {
+
             $words[] = $word['word'];
         }
+
         $words = implode(", ", $words);
+
         return $words;
     }
 
@@ -48,7 +55,9 @@ trait DataProcessing
         $categories = $this->model['question']->getCategories();
 
         foreach ($categories as $key => $category) {
+
             foreach ($questions as $table => $array) {
+
                 foreach ($array as $id => $question) {
 
                     $amount = isset($categories[$key][$table]) ? $amount : 0;
@@ -57,6 +66,7 @@ trait DataProcessing
                     $boolean = $category['id'] === $question['category'];
 
                     if ($boolean) {
+
                         $amount++;
                         $categories[$key][$table] = $amount;
                     }
@@ -67,6 +77,7 @@ trait DataProcessing
                     $booleanHidden = $table == 'answer' && $question['hidden'] == 1 && $boolean;
 
                     if ($booleanHidden) {
+
                         $amHidden++;
                         $categories[$key]['hidden'] = $amHidden;
                     }
@@ -86,9 +97,12 @@ trait DataProcessing
     private function questionProcessing($question, $data)
     {
         foreach ($question as $key => $query) {
+
             if (isset($data['updateQuestion'])) {
+
                 $question = $data;
             } else {
+
                 $question = $query;
                 $question['type'] = $data['type'];
             }

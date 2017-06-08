@@ -51,10 +51,12 @@ class View
     private function twigInit()
     {
         $loader = new \Twig_Loader_Filesystem(TWIG_TEMPLATES);
+
         $twig = new \Twig_Environment($loader, [
             'cache' => TWIG_CACHE,
             'auto_reload' => true
         ]);
+
         return $twig;
     }
 }

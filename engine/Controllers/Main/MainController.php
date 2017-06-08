@@ -48,10 +48,10 @@ class MainController extends Controller
                 'title' => 'F.A.Q.',
                 'theme' => 'index'
             ],
-            'data' => [
-                'header' => 'F.A.Q.',
+            'data'   => [
+                'header'     => 'F.A.Q.',
                 'categories' => $categories,
-                'questions' => $questions
+                'questions'  => $questions
             ]
         ];
 
@@ -83,12 +83,12 @@ class MainController extends Controller
 
         $array = [
             'header' => [
-                'title' => 'F.A.Q.'
+                'title'      => 'F.A.Q.'
             ],
-            'data' => [
-                'header' => 'Задать вопрос',
-                'error' => @array_shift($errors),
-                'data' => $data,
+            'data'   => [
+                'header'     => 'Задать вопрос',
+                'error'      => @array_shift($errors),
+                'data'       => $data,
                 'categories' => $categories
             ]
         ];

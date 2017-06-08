@@ -3,6 +3,8 @@
 namespace Engine\Models\Admin;
 
 use Engine\Core\ParentModel\Model;
+use Engine\Core\Response\Response;
+use Engine\Core\Logging\Logging;
 use RedBeanPHP\R;
 
 class AdminModel extends Model
@@ -48,13 +50,13 @@ class AdminModel extends Model
 
     private function actionSaveAdmin($data)
     {
-        logAdmin('обновил администратора (id:' . $data['id'] . ')');
+        Logging::logAdmin('обновил администратора (id:' . $data['id'] . ')');
         self::refreshAdmin($data);
     }
 
     private function actionAddAdmin($data)
     {
-        logAdmin('добавил администратора: ' . $data['login']);
+        Logging::logAdmin('добавил администратора: ' . $data['login']);
         self::entryAdmin($data);
     }
 
@@ -64,9 +66,9 @@ class AdminModel extends Model
     private function trashAdmin($data)
     {
         $admin = R::load('admin', $data['id']);
-        logAdmin('удалил администратора: ' . $admin['login']);
+        Logging::logAdmin('удалил администратора: ' . $admin['login']);
         R::trash($admin);
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 
     /**
@@ -86,7 +88,7 @@ class AdminModel extends Model
         }
         R::store($admin);
 
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 
     /**
@@ -98,7 +100,7 @@ class AdminModel extends Model
         $admin->login = $data['login'];
         $admin->password = password_hash(trim($data['password']), PASSWORD_DEFAULT);
         R::store($admin);
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 
     /**

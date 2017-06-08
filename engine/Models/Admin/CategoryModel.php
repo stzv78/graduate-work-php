@@ -3,6 +3,8 @@
 namespace Engine\Models\Admin;
 
 use Engine\Core\ParentModel\Model;
+use Engine\Core\Response\Response;
+use Engine\Core\Logging\Logging;
 use RedBeanPHP\R;
 
 class CategoryModel extends Model
@@ -49,19 +51,19 @@ class CategoryModel extends Model
 
     private function actionDeleteCategory($data)
     {
-        logAdmin('удалил категорию: ' . trim($data['title']));
+        Logging::logAdmin('удалил категорию: ' . trim($data['title']));
         self::trashCategory($data);
     }
 
     private function actionSaveCategory($data)
     {
-        logAdmin('обновил (id:' . $data['id'] . ') категорию: ' . trim($data['title']));
+        Logging::logAdmin('обновил (id:' . $data['id'] . ') категорию: ' . trim($data['title']));
         self::entryCategory($data);
     }
 
     private function actionAddCategory($data)
     {
-        logAdmin('добавил категорию: ' . trim($data['title']));
+        Logging::logAdmin('добавил категорию: ' . trim($data['title']));
         self::entryCategory($data);
     }
 
@@ -79,7 +81,7 @@ class CategoryModel extends Model
 
         $categories->title = trim($data['title']);
         R::store($categories);
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 
     /**
@@ -97,6 +99,6 @@ class CategoryModel extends Model
         }
         $category = R::load('categories', $data['id']);
         R::trash($category);
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 }

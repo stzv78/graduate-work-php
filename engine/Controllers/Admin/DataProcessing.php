@@ -2,6 +2,7 @@
 
 namespace Engine\Controllers\Admin;
 
+use Engine\Core\Response\Response;
 
 trait DataProcessing
 {
@@ -18,8 +19,7 @@ trait DataProcessing
             }
 
             if ($action !== 'login') {
-                echo 1;
-                redirect('?/admin/login');
+                Response::redirect('?/admin/login');
             }
         }
     }

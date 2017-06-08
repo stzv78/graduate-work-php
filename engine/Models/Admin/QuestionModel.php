@@ -3,6 +3,8 @@
 namespace Engine\Models\Admin;
 
 use Engine\Core\ParentModel\Model;
+use Engine\Core\Response\Response;
+use Engine\Core\Logging\Logging;
 use RedBeanPHP\R;
 
 class QuestionModel extends Model
@@ -35,10 +37,10 @@ class QuestionModel extends Model
         if (empty($errors)) {
             if ($data['type'] !== 'answer') {
                 $category = self::getCategory($data['category']);
-                logAdmin('ответил на вопрос: ' . $data['type'] . ' из категории: ' . $category);
+                Logging::logAdmin('ответил на вопрос: ' . $data['type'] . ' из категории: ' . $category);
             } else {
                 $category = self::getCategory($data['category']);
-                logAdmin('обновил вопрос: (id:' . $data['id'] . ') из категории: ' . $category);
+                Logging::logAdmin('обновил вопрос: (id:' . $data['id'] . ') из категории: ' . $category);
             }
             self::createAnswer($data);
         }
@@ -60,14 +62,15 @@ class QuestionModel extends Model
             $answer->hidden = $data['hidden'];
         }
 
-        $answer->name = trim($data['name']);
-        $answer->email = trim($data['email']);
+        $answer->name     = trim($data['name']);
+        $answer->email    = trim($data['email']);
         $answer->question = trim($data['question']);
-        $answer->answers = trim($data['answers']);
+        $answer->answers  = trim($data['answers']);
         $answer->category = $data['category'];
-        $answer->time = $data['time'];
+        $answer->time     = $data['time'];
+
         R::store($answer);
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 
     /**
@@ -94,9 +97,9 @@ class QuestionModel extends Model
         } else {
             $category = 'Сообщения из телеграма';
         }
-        logAdmin('удалил вопрос: ' . $data['type'] . ' из категории: ' . $category);
+        Logging::logAdmin('удалил вопрос: ' . $data['type'] . ' из категории: ' . $category);
         self::trashQuestion($data['type'], $data['id']); // Query
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 
     private function actionOpenQuestion($question, $data)
@@ -110,7 +113,7 @@ class QuestionModel extends Model
         }
 
         $category = self::getCategory($question['category']);
-        logAdmin($action . 'вопрос (id:' . $data['id'] . ') из категории: ' . $category);
+        Logging::logAdmin($action . 'вопрос (id:' . $data['id'] . ') из категории: ' . $category);
     }
 
     /**
@@ -122,7 +125,7 @@ class QuestionModel extends Model
      */
     protected function dictionary($data)
     {
-        logAdmin('обновил словарь');
+        Logging::logAdmin('обновил словарь');
         self::refreshDictionary($data); // Query
     }
 
@@ -152,6 +155,6 @@ class QuestionModel extends Model
             }
         }
 
-        redirect('?/admin');
+        Response::redirect('?/admin');
     }
 }

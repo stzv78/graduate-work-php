@@ -2,6 +2,7 @@
 
 namespace Engine\Controllers\Admin;
 
+use Engine\Core\Response\Response;
 
 trait Errors
 {
@@ -71,19 +72,19 @@ trait Errors
     private function checkAdminData($data)
     {
         if (trim($data['login']) === '') {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
         if (trim($data['password']) === '') {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
         if (!(preg_match('/^[a-zA-Z0-9]+$/', trim($data['login'])))) {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
         if (!(preg_match('/^[a-zA-Z0-9]+$/', trim($data['password'])))) {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
         if (!empty($this->model['admin']->getAdmin($data['login']))) {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
     }
 }

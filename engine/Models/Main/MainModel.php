@@ -58,11 +58,12 @@ class MainModel extends Model
             $question->words = $words;
         }
 
-        $question->name = $data['nameUser'];
-        $question->email = $data['emailUser'];
-        $question->question = $data['questionUser'];
+        $question->name     = trim($data['nameUser']);
+        $question->email    = trim($data['emailUser']);
+        $question->question = trim($data['questionUser']);
         $question->category = $data['categoryUser'];
-        $question->time = R::isoDateTime();
+        $question->time     = R::isoDateTime();
+
         R::store($question);
     }
 }

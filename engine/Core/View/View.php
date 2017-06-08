@@ -21,10 +21,14 @@ class View
     {
         $array['data']['thisHost'] = HOST;
         $array['header']['thisHost'] = HOST;
+
+        $name = ucfirst(CONTROLLER) . DS . $name;
+
         $twig = $this->twigInit();
-        $this->display($twig, 'header', $array['header']);
+
+        $this->display($twig, 'Main' . DS .'header', $array['header']);
         $this->display($twig, $name, $array['data']);
-        $this->display($twig, 'footer');
+        $this->display($twig, 'Main' . DS .'footer');
     }
 
     /**

@@ -169,11 +169,13 @@ Class TelegramModel extends Model
             $question = R::dispense('blocked');
             $question->words = $words;
         }
-        $question->name = $name;
-        $question->email = 'telegram:' . $chatId . ':' . $messageId;
+
+        $question->name     = $name;
+        $question->email    = 'telegram:' . $chatId . ':' . $messageId;
         $question->question = $text;
         $question->category = 0;
-        $question->time = R::isoDateTime();
+        $question->time     = R::isoDateTime();
+
         R::store($question);
     }
 
@@ -185,9 +187,11 @@ Class TelegramModel extends Model
     private function entryTelegram($chatId, $messageId)
     {
         $telegram = R::dispense('telegram');
-        $telegram->chat = $chatId;
+
+        $telegram->chat    = $chatId;
         $telegram->message = $messageId;
-        $telegram->answer = 0;
+        $telegram->answer  = 0;
+
         R::store($telegram);
     }
 }

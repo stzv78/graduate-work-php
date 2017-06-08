@@ -3,6 +3,8 @@
 namespace Engine\Controllers\Admin;
 
 use Engine\Core\ParentController\Controller;
+use Engine\Core\Response\Response;
+
 use Engine\Models\Admin\AdminModel    as Admin;
 use Engine\Models\Admin\QuestionModel as Question;
 use Engine\Models\Admin\CategoryModel as Category;
@@ -36,7 +38,7 @@ class AdminController extends Controller
     protected function setModel()
     {
         self::sessionCheck();
-        $this->model['admin'] = new Admin();
+        $this->model['admin'] =    new Admin();
         $this->model['question'] = new Question();
         $this->model['category'] = new Category();
         $this->model['telegram'] = new Telegram();
@@ -69,10 +71,10 @@ class AdminController extends Controller
 
         $array =  [
             'header' => [
-                'title' => 'Панель администратора'
+                'title'      => 'Панель администратора'
             ],
             'data'   => [
-                'header' => 'Привет ' . $_SESSION['adminLogin'] . '!',
+                'header'     => 'Привет ' . $_SESSION['adminLogin'] . '!',
                 'questions'  => $questions,
                 'categories' => $categories,
                 'admins'     => $admins,
@@ -93,7 +95,7 @@ class AdminController extends Controller
     public function actionLogin()
     {
         if (isset($_SESSION['adminId'])) {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
 
         $errors = [];
@@ -106,17 +108,17 @@ class AdminController extends Controller
             if (empty($errors)) {
                 $_SESSION['adminLogin'] = $admin['login'];
                 $_SESSION['adminId'] = $admin['id'];
-                redirect('?/admin');
+                Response::redirect('?/admin');
             }
         }
         $array = [
             'header' => [
-                'title' => 'Панель администратора'
+                'title'  => 'Панель администратора'
             ],
-            'data' => [
+            'data'   => [
                 'header' => 'Авторизация',
-                'error' => array_shift($errors),
-                'data' => $data
+                'error'  => array_shift($errors),
+                'data'   => $data
             ]
         ];
 
@@ -138,7 +140,7 @@ class AdminController extends Controller
         if (isset($data['type'])) {
             $question = $this->model['question']->getQuestion($data['type'], $data['id']);
         } else {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
 
         if (isset($data['updateQuestion'])) {
@@ -165,13 +167,13 @@ class AdminController extends Controller
 
         $array = [
             'header' => [
-                'title' => 'Панель администратора'
+                'title'      => 'Панель администратора'
             ],
-            'data' => [
-                'header' => 'Ответить на вопрос',
-                'question' => $question,
+            'data'   => [
+                'header'     => 'Ответить на вопрос',
+                'question'   => $question,
                 'categories' => $categories,
-                'error' => @array_shift($errors)
+                'error'      => @array_shift($errors)
             ]
         ];
 
@@ -188,7 +190,7 @@ class AdminController extends Controller
         $data = $_POST;
 
         if ($data['title'] === '') {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
 
         $this->model['category']->methodCall('category', $data);
@@ -204,7 +206,7 @@ class AdminController extends Controller
         $data = $_POST;
 
         if (!isset($data['dictionary'])) {
-            redirect('?/admin');
+            Response::redirect('?/admin');
         }
 
         $this->model['question']->methodCall('dictionary', $data);
@@ -225,12 +227,12 @@ class AdminController extends Controller
 
         $this->model['admin']->methodCall('admin', $data);
 
-        redirect('admin');
+        Response::redirect('admin');
     }
 
     public function actionLogout()
     {
         session_destroy();
-        redirect('');
+        Response::redirect('');
     }
 }
